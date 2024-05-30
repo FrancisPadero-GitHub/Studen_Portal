@@ -1,0 +1,20 @@
+# Install Laravel dependencies
+composer install && composer upgrade
+
+# Generate application key
+php artisan key:generate
+
+# Run database migrations
+php artisan migrate
+
+# Install JavaScript dependencies
+npm install
+
+# Proceed to vite folder
+npm install @vitejs/plugin-react
+
+# Compile front-end assets
+npm run dev
+
+# Start the development server
+php artisan serve
