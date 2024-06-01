@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axiosClient";
 
-export default function users() {
+export default function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -35,65 +35,61 @@ export default function users() {
 
     return (
         <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                }}
-            >
-                <h1 id="users">Users</h1>
-                <Link className="btn-add" to="/users/new">
-                    Add new
-                </Link>
-            </div>
-            <div className="card animated fadeInDown">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    {loading && (
-                        <tbody>
-                            <tr>
-                                <td colSpan="5" className="text-center">
-                                    Loading...
-                                </td>
-                            </tr>
-                        </tbody>
-                    )}
-                    {!loading && (
-                        <tbody>
-                            {users.map((u) => (
-                                <tr key={u.id}>
-                                    <td>{u.id}</td>
-                                    <td>{u.name}</td>
-                                    <td>{u.email}</td>
-                                    <td>
-                                        <Link
-                                            className="btn-edit"
-                                            to={"/users/" + u.id}
-                                        >
-                                            Edit
-                                        </Link>
-                                        &nbsp;
-                                        <button
-                                            className="btn-delete"
-                                            onClick={(ev) => onDeleteClick(u)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    )}
-                </table>
-            </div>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h3 id="users">Accounts</h3>
+          <Link className="btn btn-primary" to="/users/new">
+            Add new
+          </Link>
         </div>
+        <div className="card animated fadeInDown">
+          <div className="card-body">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              {loading && (
+                <tbody>
+                  <tr>
+                    <td colSpan="4" className="text-center">
+                      Loading...
+                    </td>
+                  </tr>
+                </tbody>
+              )}
+              {!loading && (
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <Link
+                          className="btn btn-sm btn-warning"
+                          to={"/users/" + user.id}
+                        >
+                          Edit
+                        </Link>
+                        &nbsp;
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => onDeleteClick(user)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              )}
+            </table>
+          </div>
+        </div>
+      </div>
     );
 }

@@ -1,34 +1,47 @@
-import {createBrowserRouter} from 'react-router-dom';
-import Login from './components/login.jsx';
-import Register from './components/register.jsx';
+import { createBrowserRouter } from 'react-router-dom';
+import Register from './components/Register.jsx';
+import Login from './components/Login.jsx';
 import Dashboard from './components/Dashboard.jsx';
-import GuestLayout from './components/GuestLayout.jsx';
-import Users from './components/users.jsx';
+import InitialLayout from './components/InitialLayout.jsx';
+import Users from './components/Users.jsx';
 import UserForm from './components/UserForm.jsx';
+import Home from './components/Home.jsx';
+import UserInfo from './components/UserInfo.jsx';
 
-const router = createBrowserRouter ([
+const router = createBrowserRouter([
     {
         path: '/',
         element: <Dashboard />,
         children: [
             {
+                path: '/home',
+                element: <Home />,
+            },
+            {
                 path: '/users',
                 element: <Users />,
             },
+
             {
                 path: '/users/new',
-                element: <UserForm key="userCreate"/>
+                element: <UserForm key="userCreate" />
             },
+
+
             {
                 path: '/users/:id',
                 element: <UserForm key="userUpdate" />
+            },
+            {
+                path: '/userinfo',
+                element: <UserInfo /> // Adding a route for UserInfo component
             },
         ]
     },
 
     {
         path: '/',
-        element: <GuestLayout />,
+        element: <InitialLayout />,
         children: [
             {
                 path: '/login',
@@ -36,7 +49,7 @@ const router = createBrowserRouter ([
             },
             {
                 path: '/register',
-                element:  <Register />,
+                element: <Register />,
             }
         ]
     },
