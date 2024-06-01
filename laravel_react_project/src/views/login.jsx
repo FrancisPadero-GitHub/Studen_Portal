@@ -5,17 +5,18 @@ import { useStateContext } from "../contexts/contextprovider";
 
 
 export default function Login() {
-    const emailRef = useRef();
-    const passwordRef = useRef();
 
-    const { setUser, setToken } = useStateContext();
-
+    // this is for the toogle password 
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => {
         setShowPassword((prevState) => !prevState);
     };
-
+    // Logic validation logic
+    const { setUser, setToken } = useStateContext();
+    const emailRef = useRef();
+    const passwordRef = useRef();
     const handleSubmit = (event) => {
+        // this code prevents the page refresh after submission 
         event.preventDefault();
         const payload = {
             email: emailRef.current.value,

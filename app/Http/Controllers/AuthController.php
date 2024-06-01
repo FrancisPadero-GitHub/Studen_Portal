@@ -14,19 +14,19 @@ class AuthController extends Controller
     {
         $data = $request->validated();
         
-        if(!Auth::attempt($data)){
-            return response([
-                'message' => 'email or password are wrong'
-            ]);
+        if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            return response()->json([
+                'message' => 'The provided credentials are incorrect.'
+            ], 401);
         }
+
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
 
         return response()->json([
             'user' => $user,
             'token' => $token
-        ]);
-
+        ], 200);
     }
 
     public function register(RegisterRequest $request)
@@ -44,15 +44,14 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token
-        ]);
+        ], 201);
     }
 
     public function logout(Request $request)
     {
         $user = $request->user();
-
         $user->currentAccessToken()->delete();
 
-        return response('',204);
+        return response()->json(null, 204);
     }
 }
