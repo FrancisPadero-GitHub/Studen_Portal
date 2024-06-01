@@ -7,16 +7,21 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
-        
+
         if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+            // Log the failed login attempt
+            Log::warning('Failed login attempt', ['email' => $data['email']]);
+
             return response()->json([
-                'message' => 'The provided credentials are incorrect.'
+                'message' => 'The provided credentials are incorrect.',
+                'error' => 'invalid_credentials'
             ], 401);
         }
 

@@ -1,15 +1,15 @@
 import {createBrowserRouter} from 'react-router-dom';
-import Login from './views/login.jsx';
-import Register from './views/register.jsx';
-import DefaultLayout from './Components/DefaultLayout.jsx';
-import GuestLayout from './Components/GuestLayout.jsx';
-import Users from './views/users.jsx';
-import UserForm from './views/UserForm.jsx';
+import Login from './components/login.jsx';
+import Register from './components/register.jsx';
+import Dashboard from './components/Dashboard.jsx';
+import GuestLayout from './components/GuestLayout.jsx';
+import Users from './components/users.jsx';
+import UserForm from './components/UserForm.jsx';
 
 const router = createBrowserRouter ([
     {
         path: '/',
-        element: <DefaultLayout />,
+        element: <Dashboard />,
         children: [
             {
                 path: '/users',
