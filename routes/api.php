@@ -21,7 +21,7 @@ This code defines a group of routes in a Laravel application that are
  protected by the Sanctum authentication middleware, meaning that the
   user must be authenticated to access these routes. 
 */
-
+// Login API
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
@@ -32,3 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+
+// Student Informations
+
