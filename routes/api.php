@@ -16,18 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function() {
-    Route::get('logout',[AuthController::class,'logout']);
+/* 
+This code defines a group of routes in a Laravel application that are
+ protected by the Sanctum authentication middleware, meaning that the
+  user must be authenticated to access these routes. 
+*/
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
-    Route::apiResource('/users',UserController::class);
+    Route::apiResource('/users', UserController::class);
 });
 
-
-
-Route::post('login',[AuthController::class,'login']);
-
-Route::post('register',[AuthController::class,'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);

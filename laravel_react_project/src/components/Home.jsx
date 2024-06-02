@@ -4,7 +4,7 @@ import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 
 const Home = () => {
-  const { user, setUser, setToken } = useStateContext();
+  const { user, setUser} = useStateContext();
   useEffect(() => {
     axiosClient.get("/user").then(({ data }) => {
       setUser(data);

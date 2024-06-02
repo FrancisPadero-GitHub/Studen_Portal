@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axiosClient";
 
-export default function Users() {
+export default function Accounts() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
 

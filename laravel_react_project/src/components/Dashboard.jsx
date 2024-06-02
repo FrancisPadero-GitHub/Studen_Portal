@@ -7,6 +7,7 @@ import { useStateContext } from "../contexts/contextprovider";
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
+import Home from "./Home";
 
 export default function Dashboard() {
   const { token } = useStateContext();
@@ -35,6 +36,7 @@ export default function Dashboard() {
     <div className="d-flex flex-column min-vh-100">
       <Header />
         <main role="main" className="flex-grow-1 p-3">
+        {/* <Home /> */}
           <div className="starter-template">
             <Outlet/>
           </div>

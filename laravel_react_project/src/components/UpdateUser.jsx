@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axiosClient";
 
-export default function UserForm() {
+export default function UpdateUser() {
   // This is for the toggle password
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = () => {
@@ -62,7 +62,10 @@ export default function UserForm() {
 
   return (
     <div>
-      {user.id ? <h4>Update Account: {user.name} | {user.email}</h4> : <h1>New User</h1>}
+
+      { // if the id has a value proceed to update otherwise add new user
+        user.id ? <h4>Update Account: {user.name} | {user.email}</h4> : <h1>Add Account</h1>}
+
       <div className="card animated fadeInDown">
         <div className="card-body">
           {loading && (
@@ -71,7 +74,7 @@ export default function UserForm() {
             </div>
           )}
 
-          {errors && (
+          {errors && ( // this is for the warning if the passowords did not match
             <div className="alert alert-danger d-flex align-items-center" role="alert">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
                 <path d="M7.938 2.016a.13.13 0 0 1 .124 0l6.857 11.856c.06.104.016.24-.094.3a.115.115 0 0 1-.1.012H1.273a.115.115 0 0 1-.1-.012.198.198 0 0 1-.094-.3L7.938 2.016zm.012 5.482a.905.905 0 0 0-1.8 0L6.7 10.995a.905.905 0 1 0 1.8 0L7.95 7.498zm0 4.8a.905.905 0 1 0-1.8 0 .905.905 0 0 0 1.8 0z" />
@@ -136,7 +139,9 @@ export default function UserForm() {
                 />
                 <label className="form-check-label" htmlFor="checkbox">Show Password</label>
               </div>
-              <button type="submit" className="btn btn-primary">Save</button>
+              <button type="submit" className="btn btn-primary">
+                {user.id ? "Update" : "Add Account"}
+              </button>
             </form>
           )}
         </div>

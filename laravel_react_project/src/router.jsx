@@ -3,10 +3,12 @@ import Register from './components/Register.jsx';
 import Login from './components/Login.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import InitialLayout from './components/InitialLayout.jsx';
-import Users from './components/Users.jsx';
-import UserForm from './components/UserForm.jsx';
+import Accounts from './components/Accounts.jsx';
+import UpdateUser from './components/UpdateUser.jsx';
 import Home from './components/Home.jsx';
 import UserInfo from './components/UserInfo.jsx';
+
+// router ni sa components lahi pud tong router sa data flow
 
 const router = createBrowserRouter([
     {
@@ -19,19 +21,19 @@ const router = createBrowserRouter([
             },
             {
                 path: '/users',
-                element: <Users />,
+                element: <Accounts />,
             },
 
-            {
+            {   // This one determines if the admin wants to add new account
                 path: '/users/new',
-                element: <UserForm key="userCreate" />
+                element: <UpdateUser key="userCreate" />
             },
 
-
-            {
+            {   // This one determines if the admin wants to update an account | id will make the form determine to display either edit or add
                 path: '/users/:id',
-                element: <UserForm key="userUpdate" />
+                element: <UpdateUser key="userUpdate" />
             },
+
             {
                 path: '/userinfo',
                 element: <UserInfo /> // Adding a route for UserInfo component
