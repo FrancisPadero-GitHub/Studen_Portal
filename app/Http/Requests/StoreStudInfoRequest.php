@@ -13,7 +13,7 @@ class StoreStudInfoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false; // You can define authorization logic here if needed
+        return true; // You can define authorization logic here if needed
     }
 
     /**
@@ -24,19 +24,19 @@ class StoreStudInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'profile_image' => 'nullable|image|max:2048', // Assuming profile image is optional and max size is 2MB
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'middle_initial' => 'nullable|string|max:1',
             'ext' => 'nullable|string|max:255',
             'gender' => 'required|in:Male,Female,Other', // Assuming gender should be one of these values
+            'age' => 'required|string|max:2',
             'date_of_birth' => 'required|date',
             'place_of_birth' => 'required|string|max:255',
             'civil_status' => 'required|string|max:255',
             'nationality' => 'required|string|max:255',
             'religion' => 'nullable|string|max:255',
-            'email' => 'required|email|unique:students_info,email',
+            'email' => 'required|email|max:255',
             'contact_number' => 'nullable|string|max:20', // Assuming contact number is a string with max length 20
             'height' => 'nullable|numeric|min:0', // Assuming height is a non-negative number
             'weight' => 'nullable|numeric|min:0', // Assuming weight is a non-negative number

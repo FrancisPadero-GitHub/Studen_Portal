@@ -33,7 +33,7 @@ class AuthController extends Controller
             'token' => $token
         ], 200);
     }
-
+    // Register Funciton there is where the axious client will access the function end client
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
@@ -44,12 +44,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $token = $user->createToken('main')->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ], 201);
     }
 
     public function logout(Request $request)

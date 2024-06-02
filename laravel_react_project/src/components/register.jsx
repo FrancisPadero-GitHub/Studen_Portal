@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+    const navigate = useNavigate();
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -21,17 +22,21 @@ export default function Register() {
 
     const Submit = (ev) => {
         ev.preventDefault();
+
         if (passwordRef.current.value !== confirmPassword) {
             setErrors({ confirmPassword: ["Passwords do not match"] });
             return;
         }
+
         const payload = {
             name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }
+
         axiosClient.post("/register", payload)
             .then(({ data }) => {
+                navigate('/');
                 setUser(data.user);
                 setToken(data.token);
             })
@@ -63,24 +68,45 @@ export default function Register() {
                                     </div>
                                 </div>
                             )}
-                            
+
                             <form onSubmit={Submit}>
                                 <div className="mb-3">
-                                    <input ref={nameRef} type="text" className="form-control" placeholder="Name" required/>
+                                    <input
+                                        ref={nameRef}
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Name"
+                                        required />
                                 </div>
+
                                 <div className="mb-1">
-                                    <input ref={emailRef} type="email" className="form-control" placeholder="Email" required/>
+                                    <input
+                                        ref={emailRef}
+                                        type="email"
+                                        className="form-control"
+                                        placeholder="Email" required />
                                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                                 </div>
+
                                 <div className="mb-1">
-                                    <input ref={passwordRef} type={showPassword ? "text" : "password"} className="form-control" placeholder="Password" required/>
+                                    <input
+                                        ref={passwordRef}
+                                        type={showPassword ? "text" : "password"}
+                                        className="form-control"
+                                        placeholder="Password" required />
                                     <div id="passwordHelpBlock" className="form-text">
                                         Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                                     </div>
                                 </div>
+
                                 <div className="mb-3">
-                                    <input ref={confirmPasswordRef} type={showPassword ? "text" : "password"} className="form-control" placeholder="Confirm Password" onChange={(e) => setConfirmPassword(e.target.value)} required/>
+                                    <input
+                                        ref={confirmPasswordRef}
+                                        type={showPassword ? "text" : "password"}
+                                        className="form-control" placeholder="Confirm Password"
+                                        onChange={(e) => setConfirmPassword(e.target.value)} required />
                                 </div>
+
                                 <div className="mb-2 form-check">
                                     <input
                                         className="form-check-input"
@@ -92,10 +118,10 @@ export default function Register() {
                                     />
                                     <label className="form-check-label" htmlFor="checkbox">Show Password</label>
                                 </div>
-
                                 <button type="submit" className="btn btn-primary btn-block">Register</button>
                             </form>
                             <p className="text-center mt-3 mb-0">Already Have An Account? <Link to='/login'>Login</Link></p>
+
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,8 @@ import Accounts from './components/Accounts.jsx';
 import UpdateUser from './components/UpdateUser.jsx';
 import Home from './components/Home.jsx';
 import UserInfo from './components/UserInfo.jsx';
+import Profile from './components/Profile.jsx';
+import StudInfoForm from './components/StudInfoForm.jsx';
 
 // router ni sa components lahi pud tong router sa data flow
 
@@ -38,6 +40,17 @@ const router = createBrowserRouter([
                 path: '/userinfo',
                 element: <UserInfo /> // Adding a route for UserInfo component
             },
+
+            {
+                path: '/profile',
+                element: <Profile /> // Adding a route for UserInfo component
+            },
+
+            {
+                path: '/addnew/new',
+                element: <StudInfoForm key="studentCreate"/>,
+            },
+            
         ]
     },
 

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('students_info', function (Blueprint $table) {
             $table->id();
-            $table->string('profile_image')->nullable();
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('middle_initial', 1)->nullable();
             $table->string('ext')->nullable();
             $table->string('gender');
+            $table->string('age');
             $table->date('date_of_birth');
             $table->string('place_of_birth');
             $table->string('civil_status');
@@ -42,7 +42,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

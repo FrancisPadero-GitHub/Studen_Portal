@@ -5,7 +5,7 @@ body {
     font-weight: 550;
     font-style: normal;
     font-size: 15px;
-    background-color: #ffe0bb;
+    background: linear-gradient(to right, #ffe0bb, #fff9f3);
 }
 /* Login Components Style */
 .mainContent {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 
@@ -21,12 +21,20 @@ const Header = () => {
       setToken(null);
     });
   };
+  
+  //Navigate Button
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+      navigate('/home');
+    };
+
 
   return (
     <header>
       <nav className="navbar navbar-expand-lg bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/Home">Student Dashboard</a>
+          <a className="navbar-brand" href="/home">Admin Dashboard (Temporary)</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -49,15 +57,15 @@ const Header = () => {
                   Administrator
                 </a>
                 <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="/users">Accounts</a></li>
-                  <li><a className="dropdown-item" href="#">TBA</a></li>
+                  <li><a className="dropdown-item" href="/users">Login Accounts</a></li>
+                  <li><a className="dropdown-item" href="/profile">Add Student</a></li>
                   <li className="dropdown-divider"><hr /></li>
                   <li><a className="dropdown-item" href="#">TBA</a></li>
                 </ul>
               </li>
             </ul>
             <div className="d-flex gap-2">
-            <button className="btn btn-outline-secondary">{user.name}</button>
+            <button className="btn btn-outline-secondary" onClick={handleRedirect}>{user.name}</button>
               <button className="btn btn-outline-danger" onClick={onLogout}>Logout</button>
             </div>
           </div>

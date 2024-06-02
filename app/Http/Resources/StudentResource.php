@@ -4,18 +4,19 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StudentInfoResource extends JsonResource
+class StudentResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
-            'profile_image' => $this->profile_image,
+
             'last_name' => $this->last_name,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'middle_initial' => $this->middle_initial,
             'ext' => $this->ext,
             'gender' => $this->gender,
+            'age' => $this->age,
             'date_of_birth' => $this->date_of_birth,
             'place_of_birth' => $this->place_of_birth,
             'civil_status' => $this->civil_status,

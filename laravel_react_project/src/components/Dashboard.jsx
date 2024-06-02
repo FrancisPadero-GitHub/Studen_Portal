@@ -6,8 +6,7 @@ import { useStateContext } from "../contexts/contextprovider";
 // import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
-import Home from "./Home";
+
 
 export default function Dashboard() {
   const { token } = useStateContext();
