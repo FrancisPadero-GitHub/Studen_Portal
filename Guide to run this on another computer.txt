@@ -1,5 +1,7 @@
-# Install Laravel dependencies
-composer install && composer upgrade
+# Install Laravel dependencies if dli mo run ang php artisan serve
+composer install 
+or 
+composer upgrade
 
 # Generate application key
 php artisan key:generate
@@ -7,14 +9,11 @@ php artisan key:generate
 # Run database migrations
 php artisan migrate
 
-# Install JavaScript dependencies
-npm install
+# Start the development server
+php artisan serve
 
-# Proceed to vite folder
+# Proceed to cd laravel_react_project
 npm install @vitejs/plugin-react
 
 # Compile front-end assets
 npm run dev
-
-# Start the development server
-php artisan serve
