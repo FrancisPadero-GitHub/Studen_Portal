@@ -98,11 +98,6 @@ export default function Login() {
                                     required
                                     ref={passwordRef}
                                 />
-                                <p className="mt-2">
-                                    <Link className="p-2" to="/forgotpass">
-                                        Forgot Password?
-                                    </Link>
-                                </p>
                             </div>
                             <div className="mb-2 form-check">
                                 <input
@@ -116,7 +111,12 @@ export default function Login() {
                                 <label className="form-check-label" htmlFor="checkbox">Show Password</label>
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
-
+                            <div className="d-flex align-items-center mt-2">
+                                <p className="mb-0">Need an account?</p>
+                                <p className="mb-0 ms-2">
+                                    <Link to="/register">Enroll Now!</Link>
+                                </p>
+                            </div>
                         </form>
                     </div>
 

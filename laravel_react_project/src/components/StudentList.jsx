@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axiosClient from "../axiosClient";
 import { Link } from 'react-router-dom';
 
+// This one will display all the students in the database in a list
+
 function StudentList() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,10 +26,10 @@ function StudentList() {
   };
 
   return (
-    <div>
+    <main className="content px-4 py-2">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3 id="users">Students Added Information | Acc Credentials TBA</h3>
-        <Link className="btn btn-primary" to="/addnew/new">
+        <h3 id="users">Add Students Information</h3>
+        <Link className="btn btn-success" to="/form/new">
           Add new
         </Link>
       </div>
@@ -80,7 +82,7 @@ function StudentList() {
           </table>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

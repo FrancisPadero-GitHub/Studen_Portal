@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
     const navigate = useNavigate();
-    const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
@@ -29,7 +28,6 @@ export default function Register() {
         }
 
         const payload = {
-            name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }
@@ -54,7 +52,7 @@ export default function Register() {
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <p className="text-center mb-1 mt-0" id="header">Temporary Account Login</p>
+                            <p className="text-center mb-1 mt-0" id="header">Login Account Registration</p>
 
                             {errors && (
                                 <div className="alert alert-danger d-flex align-items-center" role="alert">
@@ -68,17 +66,7 @@ export default function Register() {
                                     </div>
                                 </div>
                             )}
-
                             <form onSubmit={Submit}>
-                                <div className="mb-3">
-                                    <input
-                                        ref={nameRef}
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Name"
-                                        required />
-                                </div>
-
                                 <div className="mb-1">
                                     <input
                                         ref={emailRef}

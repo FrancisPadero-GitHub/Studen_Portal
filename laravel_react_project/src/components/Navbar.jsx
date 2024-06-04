@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from "react";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
+import { Link } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -50,12 +51,12 @@ const Navbar = () => {
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                         <a href="#" data-bs-toggle="dropdown" className="nav-icon pe-md-0">
-                            <img src="image/profile.jpg" className="avatar img-fluid rounded" alt="" />
+                            <img src="/Eve.jpg" className="avatar img-fluid rounded" alt="" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-end">
-                            <a href="#" className="dropdown-item">Profile</a>
-                            <a href="#" className="dropdown-item">Setting</a>
-                            <a href="#" className="dropdown-item" onClick={onLogout}>Logout</a>
+                            <Link to="/studentlist" className="dropdown-item">Profile</Link>
+                            {/* <Link to="#" className="dropdown-item">Settings</Link> */}
+                            <Link to="#" className="dropdown-item" onClick={onLogout}>Logout</Link>
                         </div>
                     </li>
                 </ul>

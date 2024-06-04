@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import axiosClient from "../axiosClient";
 import { useNavigate } from 'react-router-dom';
+
+
 const StudInfoForm = () => {
     const lastNameRef = useRef(null);
     const firstNameRef = useRef(null);
@@ -76,7 +78,7 @@ const StudInfoForm = () => {
         // Send POST request to your server using Axios
         axiosClient.post("/store", formData)
             .then(({ data }) => {
-                navigate('/profile');
+                navigate('/studentlist');
                 console.log("Form submission successful:", data);
             })
             .catch(err => {
@@ -85,7 +87,7 @@ const StudInfoForm = () => {
     };
 
     return (
-        <div className="container">
+        <main className="content ps-5 px-4 py-2">
             <h2 className="text-center mb-5">Student Information</h2>
             <form onSubmit={handleSubmit}>
 
@@ -196,7 +198,7 @@ const StudInfoForm = () => {
                         <input ref={ethnicityRef} type="text" className="form-control" id="ethnicity" name="ethnicity" required />
                     </div>
                     <div className="col-sm-3">
-                        <label htmlFor="address" className="form-label">Address</label>
+                        <label htmlFor="address" className="form-label">Address(House#/Block/Street)</label>
                         <input ref={addressRef} type="text" className="form-control" id="address" name="address" required />
                     </div>
                     <div className="col-sm-2">
@@ -239,7 +241,7 @@ const StudInfoForm = () => {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
-        </div>
+        </main>
     );
 }
 

@@ -1,95 +1,66 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-
-const Sidebar = ({ onOptionClick }) => {
+const Sidebar = () => {
   return (
-      <aside id="sidebar" className="js-sidebar">
-        <div className="h-100">
-          <div className="sidebar-logo">
-            <a href="#">CodzSword</a>
-          </div>
-          <ul className="sidebar-nav">
-            <li className="sidebar-header">Admin Elements</li>
-            <li className="sidebar-item">
-              <a href="/" className="sidebar-link">
-                <i className="fa-solid fa-list pe-2"></i>
-                Dashboard
-              </a>
-            </li>
-            <li className="sidebar-item">
-              <a href="#" className="sidebar-link collapsed" data-bs-target="#pages" data-bs-toggle="collapse" aria-expanded="false">
-                <i className="fa-solid fa-file-lines pe-2"></i>
-                Pages
-              </a>
-              <ul id="pages" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Page 1</a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Page 2</a>
-                </li>
-              </ul>
-            </li>
-            <li className="sidebar-item">
-              <a href="#" className="sidebar-link collapsed" data-bs-target="#posts" data-bs-toggle="collapse" aria-expanded="false">
-                <i className="fa-solid fa-sliders pe-2"></i>
-                Posts
-              </a>
-              <ul id="posts" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Post 1</a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Post 2</a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Post 3</a>
-                </li>
-              </ul>
-            </li>
-            <li className="sidebar-item">
-              <a href="#" className="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse" aria-expanded="false">
-                <i className="fa-regular fa-user pe-2"></i>
-                Auth
-              </a>
-              <ul id="auth" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Login</a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Register</a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">Forgot Password</a>
-                </li>
-              </ul>
-            </li>
-            <li className="sidebar-header">Multi Level Menu</li>
-            <li className="sidebar-item">
-              <a href="#" className="sidebar-link collapsed" data-bs-target="#multi" data-bs-toggle="collapse" aria-expanded="false">
-                <i className="fa-solid fa-share-nodes pe-2"></i>
-                Multi Dropdown
-              </a>
-              <ul id="multi" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link collapsed" data-bs-target="#level-1" data-bs-toggle="collapse" aria-expanded="false">
-                    Level 1
-                  </a>
-                  <ul id="level-1" className="sidebar-dropdown list-unstyled collapse">
-                    <li className="sidebar-item">
-                      <a href="#" className="sidebar-link">Level 1.1</a>
-                    </li>
-                    <li className="sidebar-item">
-                      <a href="#" className="sidebar-link">Level 1.2</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
+    <aside id="sidebar" className="js-sidebar">
+      <div className="h-100">
+        <div className="sidebar-logo">
+          <Link to="#">Student Portal</Link>
         </div>
-      </aside>
-    );
+        <ul className="sidebar-nav">
+          <li className="sidebar-header">Quick Navigation</li>
+          <li className="sidebar-item">
+            <Link to="/home" className="sidebar-link">
+              <i className="fa-solid fa-house-user pe-2"></i>
+              Dashboard
+            </Link>
+          </li>
+          <li className="sidebar-item">
+            <a href="#" className="sidebar-link collapsed" data-bs-target="#student" data-bs-toggle="collapse" aria-expanded="false">
+              <i className="fa-solid fa-circle-user pe-2"></i>
+              Student
+            </a>
+            <ul id="student" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+              <li className="sidebar-item">
+                <Link to="#" className="sidebar-link">
+                  <i className="fa-solid fa-list-ul ps-2 pe-2"></i>
+                  Subjects Enrolled
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="#" className="sidebar-link">
+                  <i className="fa-solid fa-square-poll-horizontal ps-2 pe-2"></i>
+                  Grades
+                </Link>
+              </li>
+            </ul>
+          </li>
+          <li className="sidebar-header">Admin Only Options</li>
+          <li className="sidebar-item">
+            <a href="#" className="sidebar-link collapsed" data-bs-target="#auth" data-bs-toggle="collapse" aria-expanded="false">
+              <i className="fa-solid fa-user-tie pe-2"></i>
+              Manage
+            </a>
+            <ul id="auth" className="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+              <li className="sidebar-item">
+                <Link to="/studentlist" className="sidebar-link">
+                  <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
+                  Students
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="#" className="sidebar-link">
+                  <i className="fa-solid fa-lock pe-2 ps-2"></i>
+                  Register
+                </Link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  );
 };
 
 export default Sidebar;

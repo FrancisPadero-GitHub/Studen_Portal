@@ -8,7 +8,7 @@ const Footer = () => {
                     <div className="col-6 text-start">
                         <p className="mb-0">
                             <a href="#" className="text-muted">
-                                <strong>CodzSwod</strong>
+                                <label>Byte Me If You Can © 2024</label>
                             </a>
                         </p>
                     </div>

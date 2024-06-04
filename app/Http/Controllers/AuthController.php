@@ -16,7 +16,6 @@ class AuthController extends Controller
         $data = $request->validated();
 
         if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            // Log the failed login attempt
             Log::warning('Failed login attempt', ['email' => $data['email']]);
 
             return response()->json([
@@ -33,17 +32,15 @@ class AuthController extends Controller
             'token' => $token
         ], 200);
     }
-    // Register Funciton there is where the axious client will access the function end client
+
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
-        $user = User::create([
-            'name' => $data['name'],
+        User::create([
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-
 
     }
 
@@ -51,7 +48,6 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();
-
         return response()->json(null, 204);
     }
 }

@@ -6,7 +6,6 @@ export default function InitialLayout() {
     if (token) {
         return <Navigate to='/' />
     }
-
     return (
         <div>
             <div>
