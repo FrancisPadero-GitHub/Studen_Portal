@@ -4,7 +4,10 @@ import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 
 // import { Outlet } from 'react-router-dom';
-import Header from './Header';
+
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
+import Content from "./Content";
 import Footer from './Footer';
 
 
@@ -32,15 +35,13 @@ export default function Dashboard() {
   // }, []);
 
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Header />
-        <main role="main" className="flex-grow-1 p-3">
-        {/* <Home /> */}
-          <div className="starter-template">
-            <Outlet/>
-          </div>
-        </main>
-      <Footer />
+    <div className="wrapper">
+      <Sidebar />
+      <div className="main">
+        <Navbar />
+        <Content />
+        <Footer />
+      </div>
     </div>
   );
 

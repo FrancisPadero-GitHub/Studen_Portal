@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Register from './components/Register.jsx';
+import ForgotPass from './components/ForgotPass.jsx';
 import Login from './components/Login.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import InitialLayout from './components/InitialLayout.jsx';
@@ -63,8 +63,8 @@ const router = createBrowserRouter([
                 element: <Login />,
             },
             {
-                path: '/register',
-                element: <Register />,
+                path: '/forgotpass',
+                element: <ForgotPass />,
             }
         ]
     },
