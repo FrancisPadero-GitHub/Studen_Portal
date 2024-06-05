@@ -114,7 +114,7 @@ export default function Login() {
                             <div className="d-flex align-items-center mt-2">
                                 <p className="mb-0">Need an account?</p>
                                 <p className="mb-0 ms-2">
-                                    <Link to="/register">Enroll Now!</Link>
+                                    <Link to="/form/new">Register Now!</Link>
                                 </p>
                             </div>
                         </form>

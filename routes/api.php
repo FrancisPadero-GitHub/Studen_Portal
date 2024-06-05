@@ -39,8 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
-
-
 // Student Informations
 Route::post('store', [InformationController::class, 'store']);
-

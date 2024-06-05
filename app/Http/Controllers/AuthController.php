@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    // Login Validation Controller & Requests
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
@@ -33,21 +34,33 @@ class AuthController extends Controller
         ], 200);
     }
 
+
+    // Login Registration and Validation
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
-        User::create([
+        // Create the user
+        $user = User::create([
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
 
+        // Generate a token for the user
+        $token = $user->createToken('main')->plainTextToken;
+
+        // Return the user data and token in the response
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
 
     public function logout(Request $request)
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();
+
         return response()->json(null, 204);
     }
 }

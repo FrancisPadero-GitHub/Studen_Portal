@@ -5,13 +5,10 @@ import { Link } from 'react-router-dom';
 // This one will display all the students in the database in a list
 
 function StudentList() {
+
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-
+  // Fetch students based on an array
   const fetchStudents = () => {
     setLoading(true);
     axiosClient.get('/students')
@@ -24,6 +21,10 @@ function StudentList() {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   return (
     <main className="content px-4 py-2">

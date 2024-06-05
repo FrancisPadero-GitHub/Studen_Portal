@@ -3,7 +3,6 @@ import axiosClient from "../axiosClient";
 import React from "react";
 import { useStateContext } from "../contexts/contextprovider";
 
-
 // Displays the Current (You have to connect)
 const Home = () => {
   const { user, setUser } = useStateContext();

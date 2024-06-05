@@ -27,7 +27,7 @@ class InformationController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -52,7 +52,7 @@ class InformationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource. Mao ning tong sa Resource Folder
      */
     public function show(StudentInfo $studentInfo)
     {

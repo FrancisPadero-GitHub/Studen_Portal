@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('students_info', function (Blueprint $table) {
             $table->id();
+            $table->string('email');
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
@@ -25,7 +26,6 @@ return new class extends Migration
             $table->string('civil_status');
             $table->string('nationality');
             $table->string('religion')->nullable();
-            $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
             $table->float('height')->nullable();
             $table->float('weight')->nullable();
