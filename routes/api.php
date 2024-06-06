@@ -25,9 +25,6 @@ This code defines a group of routes in a Laravel application that are
 // Login API
 Route::middleware('auth:sanctum')->group(function () {
     // Student Login DB
-    Route::get('/students', [InformationController::class, 'index']);
-    Route::get('/students/{studentInfo}', [InformationController::class, 'show']);
-
     // Authenticator Login DB
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
@@ -40,4 +37,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 // Student Informations
-Route::post('store', [InformationController::class, 'store']);
+// Route::post('store', [InformationController::class, 'store']);
+Route::get('/students', [InformationController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/students/{studentInfo}', [InformationController::class, 'show']);
+Route::apiResource('/students', InformationController::class);

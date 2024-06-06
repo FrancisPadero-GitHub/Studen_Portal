@@ -6,7 +6,6 @@
     import Login from './components/Login.jsx';
     import Dashboard from './components/Dashboard.jsx';
     import InitialLayout from './components/InitialLayout.jsx';
-    import Accounts from './components/Accounts.jsx';
     import UpdateUser from './components/UpdateUser.jsx';
     import Home from './components/Home.jsx';
     import StudInfoForm from './components/StudInfoForm.jsx';
@@ -25,33 +24,32 @@
                     path: '/',
                     element: <Navigate to="/home" replace />,
                 },
-            
+
                 {
-                    path: '/users',
-                    element: <Accounts />,
+                    path: '/studentlist',
+                    element: <StudentList />,
                 },
-                {
-                    path: '/users/new',
-                    element: <UpdateUser key="userCreate" />,
-                },
-                {
-                    path: '/users/:id',
-                    element: <UpdateUser key="userUpdate" />,
-                },
+
+                // {
+                //     path: '/createUsers/new',
+                //     element: <UpdateUser key="userCreate" />,
+                // },
+
+                // {
+                //     path: '/updateUsers/:id',
+                //     element: <UpdateUser key="userUpdate" />,
+                // },
+
                 {
                     path: '/home',
                     element: <Home />,
                 },
 
-                
                 {
                     path: '/studentprofile',
                     element: <StudentProfile/>,
                 },
-                {
-                    path: '/studentlist',
-                    element: <StudentList />,
-                },
+
 
 
             ],

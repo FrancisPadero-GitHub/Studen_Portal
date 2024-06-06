@@ -43,18 +43,18 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand px-3 border-bottom">
+        <nav className="navbar navbar-expand px-3 py-0 border-bottom">
             <button className="btn" id="sidebar-toggle" type="button">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="navbar-collapse navbar">
+            <div className="navbar-collapse navbar py-1">
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                         <a href="#" data-bs-toggle="dropdown" className="nav-icon pe-md-0">
-                            <img src="/Eve.jpg" className="avatar img-fluid rounded" alt="" />
+                            <img src="/formal_picture.png" className="avatar img-fluid " id="navpic"/>
                         </a>
                         <div className="dropdown-menu dropdown-menu-end">
-                            <Link to="/studentlist" className="dropdown-item">Profile</Link>
+                            <Link to="/studentprofile" className="dropdown-item">Profile</Link>
                             {/* <Link to="#" className="dropdown-item">Settings</Link> */}
                             <Link to="#" className="dropdown-item" onClick={onLogout}>Logout</Link>
                         </div>

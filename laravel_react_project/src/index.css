@@ -2,9 +2,8 @@ body {
     /*Font Properties*/
     font-family: "Work Sans", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400;
+    font-weight: 450;
     font-style: normal;
-    font-size: 15px;
     /* background: linear-gradient(to right, #ffe0bb, #fff9f3); */
 }
 /* Login Components Style */
@@ -20,7 +19,7 @@ body {
 }
 
 /*Icon padding and its error message*/
-.error{
+.error {
     padding-left: 10px;
 }
 
@@ -34,7 +33,7 @@ body {
 }
 
 #ustpHead {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #mainContainer {
@@ -45,6 +44,7 @@ body {
     max-width: 850px;
     border-radius: 20px;
     padding: 20px 0px 20px 0px;
+    font-size: 13px;
     /* background-color: #ffe0bb; */
 }
 
@@ -82,7 +82,7 @@ body {
 }
 
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: 12px;
     opacity: 1;
     overflow-y: scroll;
@@ -96,7 +96,7 @@ body {
 a {
     cursor: pointer;
     text-decoration: none;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
 }
 
 li {
@@ -104,7 +104,7 @@ li {
 }
 
 h4 {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: 1.275rem;
     color: var(--bs-emphasis-color);
 }
@@ -156,12 +156,12 @@ h4 {
 
 .sidebar-header {
     color: #e9ecef;
-    font-size: .75rem;
-    padding: 1.5rem 1.5rem .375rem;
+    font-size: 0.75rem;
+    padding: 1.5rem 1.5rem 0.375rem;
 }
 
 a.sidebar-link {
-    padding: .625rem 1.625rem;
+    padding: 0.625rem 1.625rem;
     color: #e9ecef;
     position: relative;
     display: block;
@@ -170,7 +170,7 @@ a.sidebar-link {
 
 .sidebar-link[data-bs-toggle="collapse"]::after {
     border: solid;
-    border-width: 0 .075rem .075rem 0;
+    border-width: 0 0.075rem 0.075rem 0;
     content: "";
     display: inline-block;
     padding: 2px;
@@ -178,12 +178,12 @@ a.sidebar-link {
     right: 1.5rem;
     top: 1.4rem;
     transform: rotate(-135deg);
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
     transform: rotate(45deg);
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 .avatar {
@@ -201,7 +201,7 @@ a.sidebar-link {
     width: 100vw;
 }
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .content {
         max-width: auto;
         width: auto;
@@ -209,7 +209,7 @@ a.sidebar-link {
 }
 
 .card {
-    box-shadow: 0 0 .875rem 0 rgba(34, 46, 60, .05);
+    box-shadow: 0 0 0.875rem 0 rgba(34, 46, 60, 0.05);
     margin-bottom: 24px;
 }
 
@@ -231,8 +231,7 @@ a.sidebar-link {
 
 /* Footer and Nav */
 
-@media (max-width:767.98px) {
-
+@media (max-width: 767.98px) {
     .js-sidebar {
         margin-left: -264px;
     }
@@ -247,20 +246,53 @@ a.sidebar-link {
     }
 }
 
-#regisForm{
+#regisForm {
     border-radius: 10px;
     padding: 20px;
     width: 100%;
     max-width: 1200px;
+    font-size: 13px;
 }
 
-
-
 #lastrow {
-
     background-color: #363062;
 }
 
+#profileContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+#navpic{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgb(138, 131, 131);
+}
+
+#profileCard {
+    width: 350px;
+    
+
+}
+#formalImg {
+    background-color: rgb(138, 131, 131);
+}
+
+#formCard {
+    width: 1000px;
+
+}
+
+.breadcrumb{
+    border: 1px solid #646262;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 2px 10px 2px 5px;
+    font-size: 13px;
+}
 /* Theme Toggler */
 
 /* .theme-toggle {

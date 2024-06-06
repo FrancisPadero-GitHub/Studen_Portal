@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudInfoRequest;
+use App\Http\Requests\UpdateStudRequest;
 use App\Models\StudentInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,19 +16,14 @@ class InformationController extends Controller
      */
     public function index()
     {
-        return StudentResource::collection(
-            StudentInfo::query()->orderBy('id', 'desc')->get()
-        );
+        return StudentResource::collection(StudentInfo::query()->orderBy('id', 'desc')->get());
     }
-
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-
     }
 
     /**
@@ -52,6 +48,29 @@ class InformationController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateStudRequest $request, StudentInfo $studentInfo)
+    {
+        try {
+            $studentInfo = StudentInfo::findOrFail($studentInfo);
+            // Log the student info to the Laravel log
+            Log::info('Student ID Information you are trying to EDIT:', $studentInfo);
+
+            // Validate the incoming request if necessary
+            $validatedData = $request->validated();
+            $studentInfo = new StudentInfo($validatedData);
+
+            // Update the student info
+            $studentInfo->update($request->all());
+            return response()->json(['message' => 'Student information updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating student info', ['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Failed to update student information'], 500);
+        }
+    }
+
+    /**
      * Display the specified resource. Mao ning tong sa Resource Folder
      */
     public function show(StudentInfo $studentInfo)
@@ -64,15 +83,7 @@ class InformationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function edit(string $studentInfo)
     {
         //
     }
