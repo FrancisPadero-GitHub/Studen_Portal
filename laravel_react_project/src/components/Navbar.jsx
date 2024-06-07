@@ -51,7 +51,7 @@ const Navbar = () => {
                 <ul className="navbar-nav">
                     <li className="nav-item dropdown">
                         <a href="#" data-bs-toggle="dropdown" className="nav-icon pe-md-0">
-                            <img src="/formal_picture.png" className="avatar img-fluid " id="navpic"/>
+                            <img src="/profile.jpg" className="avatar img-fluid " id="navpic"/>
                         </a>
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link to="/studentprofile" className="dropdown-item">Profile</Link>

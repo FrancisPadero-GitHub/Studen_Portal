@@ -34,7 +34,7 @@ export default function Register() {
 
         axiosClient.post("/register", payload)
             .then(({ data }) => {
-                navigate('/');
+                navigate('/'); // this one will proceed to dashboard even if it doesn't state it
                 setUser(data.user);
                 setToken(data.token);
             })
@@ -47,12 +47,12 @@ export default function Register() {
     }
 
     return (
-        <div className="container">
+        <div className="content px-3 py-2">
             <div className="row justify-content-center mt-5">
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <p className="text-center mb-1 mt-0" id="header">Login Account Registration</p>
+                            <p className="text-center mb-1 mt-0" id="header">Super User Account</p>
 
                             {errors && (
                                 <div className="alert alert-danger d-flex align-items-center" role="alert">

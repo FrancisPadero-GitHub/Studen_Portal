@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('students_info', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
-            $table->string('last_name');
-            $table->string('first_name');
+            $table->string('email')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('middle_initial', 1)->nullable();
-            $table->string('ext')->nullable();
-            $table->string('gender');
-            $table->string('age');
-            $table->date('date_of_birth');
-            $table->string('place_of_birth');
-            $table->string('civil_status');
-            $table->string('nationality');
+            $table->string('ext')->nullable()->nullable();
+            $table->string('gender')->nullable();
+            $table->string('age')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('place_of_birth')->nullable();
+            $table->string('civil_status')->nullable();
+            $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
             $table->string('contact_number')->nullable();
             $table->float('height')->nullable();

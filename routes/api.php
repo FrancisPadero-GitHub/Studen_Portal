@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +38,20 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
-// Student Informations
-// Route::post('store', [InformationController::class, 'store']);
+// Student Informations API
 Route::get('/students', [InformationController::class, 'index']);  // this is for showing the data without specifying the id
 Route::get('/students/{studentInfo}', [InformationController::class, 'show']);
 Route::apiResource('/students', InformationController::class);
+
+// Student Enrollment API
+Route::get('/enrollment', [EnrollmentController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/enrollment/{enrollment}', [EnrollmentController::class, 'show']);
+Route::apiResource('/enrollment', EnrollmentController::class);
+
+// Subjects Information API
+Route::get('/subject', [SubjectController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/subject/{subject}', [SubjectController::class, 'show']);
+
+Route::apiResource('/subject', SubjectController::class);
+
+// Grades information API

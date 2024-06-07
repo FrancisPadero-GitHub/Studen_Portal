@@ -40,7 +40,7 @@ const StudInfoForm = () => {
         setShowPassword((prevState) => !prevState);
     }
 
-    const handleSubmit = (ev) => {
+    const handleSubmit = () => {
         // Prepare payload
         const payload = {
             last_name: lastNameRef.current.value,
@@ -97,7 +97,7 @@ const StudInfoForm = () => {
     const { setUser, setToken } = useStateContext();
     const [errors, setErrors] = useState(null);
 
-    const Submit = (ev) => {
+    const Submit = () => {
         if (passwordRef.current.value !== confirmPassword) {
             setErrors({ confirmPassword: ["Passwords do not match"] });
             return;

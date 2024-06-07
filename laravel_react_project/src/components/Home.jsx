@@ -1,18 +1,34 @@
-import { useEffect } from "react";
+
 import axiosClient from "../axiosClient";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/contextprovider";
 
 // Displays the Current (You have to connect)
 
 const Home = () => {
     const { user, setUser } = useStateContext();
+    // Fetch user and student data on component mount
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
+            // Fetch the student's data using the user's ID
+            const studentId = data.id;
+            getStudents(studentId);
         });
-    }, []);
+    }, [setUser]);
 
+    const [students, setStudents] = useState({});
+    const getStudents = (id) => {
+        axiosClient.get(`/students/${id}`)
+            .then(response => {
+                const studentData = response.data.data;
+                setStudents(studentData);
+            })
+            .catch(error => {
+                console.error('Error fetching students:', error);
+
+            });
+    };
 
     return (
         <main className="content px-3 py-2">
@@ -34,7 +50,7 @@ const Home = () => {
                                 <div className="row g-0 w-100">
                                     <div className="col-6">
                                         <div className="p-3 m-1">
-                                            <h4>Welcome, {user.email}</h4>
+                                            <h4>Welcome, {students.first_name} {students.middle_initial ? students.middle_initial + '.' : ''} {students.last_name}</h4>
                                             <p className="mb-0">Random Motivation Qoutes</p>
 
                                         </div>

@@ -29,9 +29,15 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li className="sidebar-item">
-                <Link to="#" className="sidebar-link">
+                <Link to="/grades" className="sidebar-link">
                   <i className="fa-solid fa-square-poll-horizontal ps-2 pe-2"></i>
                   Grades
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="/enrollment" className="sidebar-link">
+                  <i className="fa-solid fa-scroll ps-2 pe-2"></i>
+                  Enrollment
                 </Link>
               </li>
             </ul>

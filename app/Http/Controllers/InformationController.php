@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudInfoRequest;
 use App\Http\Requests\UpdateStudRequest;
 use App\Models\StudentInfo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\StudentResource;
 
@@ -24,6 +23,7 @@ class InformationController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -35,6 +35,7 @@ class InformationController extends Controller
             Log::info('Received request to store student info', $request->all());
 
             $validatedData = $request->validated();
+            
 
             $studentInfo = new StudentInfo($validatedData);
 
@@ -50,25 +51,32 @@ class InformationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudRequest $request, StudentInfo $studentInfo)
+    public function update(UpdateStudRequest $request, $studentInfoId)
     {
         try {
-            $studentInfo = StudentInfo::findOrFail($studentInfo);
-            // Log the student info to the Laravel log
-            Log::info('Student ID Information you are trying to EDIT:', $studentInfo);
+            // Find the StudentInfo object by ID
+            $studentInfo = StudentInfo::findOrFail($studentInfoId);
 
-            // Validate the incoming request if necessary
+            // Log the incoming request data
+            Log::info('Incoming request data:', $request->all());
+
+            // Validate the incoming request
             $validatedData = $request->validated();
-            $studentInfo = new StudentInfo($validatedData);
 
-            // Update the student info
-            $studentInfo->update($request->all());
+            // Update the StudentInfo object with the validated data
+            $studentInfo->update($validatedData);
+
+            // Return a success response
             return response()->json(['message' => 'Student information updated successfully'], 200);
         } catch (\Exception $e) {
+            // Log the error
             Log::error('Error updating student info', ['error' => $e->getMessage()]);
+
+            // Return an error response
             return response()->json(['error' => 'Failed to update student information'], 500);
         }
     }
+
 
     /**
      * Display the specified resource. Mao ning tong sa Resource Folder
