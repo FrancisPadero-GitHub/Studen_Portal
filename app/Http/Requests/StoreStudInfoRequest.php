@@ -24,6 +24,7 @@ class StoreStudInfoRequest extends FormRequest
     public function rules()
     {
         return [
+            'email' => 'required|email|max:255',
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
@@ -36,7 +37,6 @@ class StoreStudInfoRequest extends FormRequest
             'civil_status' => 'required|string|max:255',
             'nationality' => 'required|string|max:255',
             'religion' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255',
             'contact_number' => 'nullable|string|max:20', // Assuming contact number is a string with max length 20
             'height' => 'nullable|numeric|min:0', // Assuming height is a non-negative number
             'weight' => 'nullable|numeric|min:0', // Assuming weight is a non-negative number

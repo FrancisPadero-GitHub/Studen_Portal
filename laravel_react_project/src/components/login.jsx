@@ -41,6 +41,7 @@ export default function Login() {
             });
     };
 
+    
     return (
         <>
             <nav className="navbar bg-body-tertiary">
@@ -64,7 +65,7 @@ export default function Login() {
                     <div className="m-1" id="form">
                         <p className="text-center mb-1 mt-0" id="header">Please Login </p>
 
-                        {errorMessage && <div className="alert alert-danger d-flex align-items-center" role="alert">
+                        {errorMessage && <div className="alert alert-light d-flex align-items-center" role="alert">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
                                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                             </svg>
@@ -110,12 +111,12 @@ export default function Login() {
                                 <label className="form-check-label" htmlFor="checkbox">Show Password</label>
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
-                            <p className="m-2">
-                                Need an Account?
-                                <Link className="p-2" to="/register">
-                                    Enroll Now!
-                                </Link>
-                            </p>
+                            <div className="d-flex align-items-center mt-2">
+                                <p className="mb-0">Need an account?</p>
+                                <p className="mb-0 ms-2">
+                                    <Link to="/form/new">Register Now!</Link>
+                                </p>
+                            </div>
                         </form>
                     </div>
 

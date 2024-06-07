@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    // Login Validation Controller & Requests
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
 
         if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            // Log the failed login attempt
             Log::warning('Failed login attempt', ['email' => $data['email']]);
 
             return response()->json([
@@ -33,18 +33,27 @@ class AuthController extends Controller
             'token' => $token
         ], 200);
     }
-    // Register Funciton there is where the axious client will access the function end client
+
+
+    // Login Registration and Validation
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
+        // Create the user
         $user = User::create([
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
 
+        // Generate a token for the user
+        $token = $user->createToken('main')->plainTextToken;
 
+        // Return the user data and token in the response
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ], 200);
     }
 
     public function logout(Request $request)

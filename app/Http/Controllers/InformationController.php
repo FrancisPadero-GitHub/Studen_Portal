@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudInfoRequest;
+use App\Http\Requests\UpdateStudRequest;
 use App\Models\StudentInfo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\StudentResource;
 
@@ -15,12 +15,8 @@ class InformationController extends Controller
      */
     public function index()
     {
-        return StudentResource::collection(
-            StudentInfo::query()->orderBy('id', 'desc')->get()
-        );
+        return StudentResource::collection(StudentInfo::query()->orderBy('id', 'desc')->get());
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -39,6 +35,7 @@ class InformationController extends Controller
             Log::info('Received request to store student info', $request->all());
 
             $validatedData = $request->validated();
+            
 
             $studentInfo = new StudentInfo($validatedData);
 
@@ -52,7 +49,37 @@ class InformationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateStudRequest $request, $studentInfoId)
+    {
+        try {
+            // Find the StudentInfo object by ID
+            $studentInfo = StudentInfo::findOrFail($studentInfoId);
+
+            // Log the incoming request data
+            Log::info('Incoming request data:', $request->all());
+
+            // Validate the incoming request
+            $validatedData = $request->validated();
+
+            // Update the StudentInfo object with the validated data
+            $studentInfo->update($validatedData);
+
+            // Return a success response
+            return response()->json(['message' => 'Student information updated successfully'], 200);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error updating student info', ['error' => $e->getMessage()]);
+
+            // Return an error response
+            return response()->json(['error' => 'Failed to update student information'], 500);
+        }
+    }
+
+
+    /**
+     * Display the specified resource. Mao ning tong sa Resource Folder
      */
     public function show(StudentInfo $studentInfo)
     {
@@ -64,15 +91,7 @@ class InformationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function edit(string $studentInfo)
     {
         //
     }

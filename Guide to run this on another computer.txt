@@ -17,3 +17,5 @@ npm install @vitejs/plugin-react
 
 # Compile front-end assets
 npm run dev
+
+Happy Coding!

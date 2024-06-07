@@ -2,18 +2,34 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="d-flex flex-wrap justify-content-between align-items-center mb-0 py-0 my-4 border-top bg-light">
-            <p className="col-md-4 mb-0 ">© 2024 Byte Me If You Can, Inc</p>
-            <a href="#" className="col-md-4 d-flex align-items-center justify-content-center mb-0 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <img src="/pngegg.png" width="60" />
-            </a>
-            <ul className="nav col-md-4 justify-content-end">
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Home</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Features</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">About</a></li>
-            </ul>
+        <footer className="footer">
+            <div className="container-fluid">
+                <div className="row text-muted">
+                    <div className="col-6 text-start">
+                        <p className="mb-0">
+                            <a href="#" className="text-muted">
+                                <label>Byte Me If You Can © 2024</label>
+                            </a>
+                        </p>
+                    </div>
+                    <div className="col-6 text-end">
+                        <ul className="list-inline ">
+                            <li className="list-inline-item pe-2">
+                                <a href="https://web.facebook.com/profile.php?id=100093372504994" target='_blank' className="text-muted">Contact Gwapo</a>
+                            </li>
+                            <li className="list-inline-item pe-2">
+                                <a href="" className="text-muted">About Us</a>
+                            </li>
+                            <li className="list-inline-item pe-2">
+                                <a href="#" className="text-muted">Terms</a>
+                            </li>
+                            <li className="list-inline-item pe-2">
+                                <a href="#" className="text-muted">Booking</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </footer>
     );
 };

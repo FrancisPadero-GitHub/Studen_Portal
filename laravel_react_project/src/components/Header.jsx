@@ -22,12 +22,7 @@ const Header = () => {
     });
   };
   
-  //Navigate Button
-  const navigate = useNavigate();
 
-  const handleRedirect = () => {
-      navigate('/home');
-    };
 
 
   return (
