@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+// Sevare final push update (Bootstrap Navigator)
 const Sidebar = () => {
     return (
         <aside id="sidebar" className="js-sidebar">
