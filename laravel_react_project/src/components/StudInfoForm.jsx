@@ -4,6 +4,7 @@ import { useStateContext } from "../contexts/contextprovider";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+// Pelayo on this mix batak kaayo sa payload oy
 const StudInfoForm = () => {
     const lastNameRef = useRef(null);
     const firstNameRef = useRef(null);
