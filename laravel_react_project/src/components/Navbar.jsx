@@ -4,6 +4,7 @@ import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 import { Link } from "react-router-dom";
 
+// Sevare Fixed Logout and update of profile picture
 const Navbar = () => {
     useEffect(() => {
         const sidebarToggle = document.getElementById("sidebar-toggle");
