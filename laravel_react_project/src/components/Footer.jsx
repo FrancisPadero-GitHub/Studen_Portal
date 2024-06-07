@@ -1,5 +1,5 @@
 import React from 'react';
-
+// Footman Sevare update 
 const Footer = () => {
     return (
         <footer className="footer">
