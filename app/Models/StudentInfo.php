@@ -9,6 +9,7 @@ class StudentInfo extends Model
     protected $table = 'students_info';
     
     protected $fillable = [
+        'student_id',
         'last_name',
         'first_name',
         'middle_name',
@@ -22,6 +23,7 @@ class StudentInfo extends Model
         'nationality',
         'religion',
         'email',
+        'password',
         'contact_number',
         'height',
         'weight',

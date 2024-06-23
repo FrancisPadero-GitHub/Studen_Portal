@@ -15,10 +15,10 @@ const Footer = () => {
                     <div className="col-6 text-end">
                         <ul className="list-inline ">
                             <li className="list-inline-item pe-2">
-                                <a href="https://web.facebook.com/profile.php?id=100093372504994" target='_blank' className="text-muted">Contact Gwapo</a>
+                                <a href="https://web.facebook.com/profile.php?id=100093372504994" target='_blank' className="text-muted">Contact</a>
                             </li>
                             <li className="list-inline-item pe-2">
-                                <a href="" className="text-muted">About Us</a>
+                                <a href="#" className="text-muted">About Us</a>
                             </li>
                             <li className="list-inline-item pe-2">
                                 <a href="#" className="text-muted">Terms</a>

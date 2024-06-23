@@ -10,7 +10,7 @@ export default function StudentProfile() {
 
     // State for students' data
     const [students, setStudents] = useState({});
-    const [enroll, setEnroll] = useState({});
+
     // State for form inputs
     const [formData, setFormData] = useState({});
     // State for loading status
@@ -21,7 +21,7 @@ export default function StudentProfile() {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const studentId = data.id;
+            const studentId = data.student_id;
             getStudents(studentId);
             getEnrollmentInfo(studentId);
         });
@@ -30,7 +30,7 @@ export default function StudentProfile() {
     // To get all the information from the students table
     const getStudents = (id) => {
         axiosClient
-            .get(`/students/${id}`)
+            .get(`/students/by-student-id/${id}`)
             .then((response) => {
                 const studentData = response.data.data;
                 setStudents(studentData);
@@ -44,9 +44,10 @@ export default function StudentProfile() {
     };
 
     // To get the student ID from the enrollment table
+    const [enroll, setEnroll] = useState({});
     const getEnrollmentInfo = (id) => {
         axiosClient
-            .get(`/enrollment/${id}`)
+            .get(`/enrollment/by-student-id/${id}`)
             .then((response) => {
                 const enrollData = response.data.data;
                 setEnroll(enrollData);
@@ -69,7 +70,7 @@ export default function StudentProfile() {
     const onSubmit = (ev) => {
         ev.preventDefault();
         axiosClient
-            .put(`/students/${user.id}`, formData)
+            .put(`/students/update_by_student_id/${formData.student_id}`, formData)
             .then(() => {
                 // Optionally, you can fetch the updated data again to refresh the state
                 getStudents(user.id);
@@ -87,7 +88,7 @@ export default function StudentProfile() {
     };
 
     return (
-        <main className="content px-3 py-2">
+        <main className="content px-3 py-2 d-flex justify-content-center align-items-center">
             {loading ? (
                 <p className="text-center ">Loading...</p>
             ) : (
@@ -112,7 +113,7 @@ export default function StudentProfile() {
                                 {students.last_name}
                             </p>
                             <div className="text-center mb-1">
-                                <em>{enroll.student_id}</em>
+                                <em>{formData.student_id}</em>
                             </div>
                             <div className="text-center">
                                 <p className="text-info">STUDENT</p>
@@ -127,7 +128,6 @@ export default function StudentProfile() {
 
                     <div>
                         <form onSubmit={onSubmit}>
-                            <h4>Student Personal Information</h4>
                             <div className="card" id="formCard">
                                 <div className="card-body" id="regisForm">
                                     <p className="text-center mb-2" id="header">
@@ -401,7 +401,7 @@ export default function StudentProfile() {
                                                 className="form-control form-control-md"
                                                 id="email"
                                                 name="email"
-                                                required
+                                                readOnly
                                             />
                                         </div>
 

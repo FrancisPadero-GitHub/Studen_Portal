@@ -1,21 +1,64 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 
 export default function Login() {
-    // This is for the toggle password
-    const [showPassword, setShowPassword] = useState(false);
-    const togglePassword = () => {
-        setShowPassword((prevState) => !prevState);
-    };
 
-    // Logic validation logic
     const { setUser, setToken } = useStateContext();
     const [errorMessage, setErrorMessage] = useState('');
     const emailRef = useRef();
     const passwordRef = useRef();
 
+    // Default Login Credentials for Super User admin. PS: This will automatically runs in the background once the program is being initiated
+    // Token is not available for this by default to avoid routing to home upon running
+    const superUserCredentials = {
+        student_id: 1,
+        email: "superuser@gmail.com",
+        password: "test1234",
+        account: "admin"
+    };
+    
+    // this one checks if the account is already exists or not then proceed to the conditional inside it
+    const checkAndCreateSuperUser = async () => {
+        try {
+            // Fetch all users
+            const response = await axiosClient.get("/users", { params: { email: superUserCredentials.email } });
+
+            // Log the fetched user data to understand the structure
+            console.log("Fetched user data:", response.data);
+
+            // Check if superuser account already exists
+            const userExists = response.data.data.some(user => user.email === superUserCredentials.email);
+
+            if (userExists) {
+                console.log("Superuser account already exists.");
+            } else {
+                console.log("Superuser does not exist. Fetched user data:", response.data);
+
+                // Proceed to create the superuser since it does not exist
+                createSuperUser();
+            }
+        } catch (err) {
+            console.error("Error checking superuser account existence:", err);
+        }
+    };
+    
+    // Function to create superuser account
+    const createSuperUser = () => {
+        axiosClient.post("/register", superUserCredentials)
+            .then(({ data }) => {
+                console.log("Superuser account created successfully:", data);
+            })
+            .catch((err) => {
+                console.error("Failed to create superuser account:", err);
+            });
+    };
+    useEffect(() => {
+        checkAndCreateSuperUser();
+    }, []);
+
+    // Logic validation logic
     const handleSubmit = (event) => {
         // This code prevents the page refresh after submission
         event.preventDefault();
@@ -41,7 +84,13 @@ export default function Login() {
             });
     };
 
-    
+    // This is for the toggle password
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePassword = () => {
+        setShowPassword((prevState) => !prevState);
+    };
+
+
     return (
         <>
             <nav className="navbar bg-body-tertiary">
@@ -114,7 +163,7 @@ export default function Login() {
                             <div className="d-flex align-items-center mt-2">
                                 <p className="mb-0">Need an account?</p>
                                 <p className="mb-0 ms-2">
-                                    <Link to="/form/new">Register Now!</Link>
+                                    <Link to="/enroll/register">Register Now!</Link>
                                 </p>
                             </div>
                         </form>

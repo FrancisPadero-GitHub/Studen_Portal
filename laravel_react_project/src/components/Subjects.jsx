@@ -11,7 +11,7 @@ const Subjects = () => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const subsInfo = data.id;
+            const subsInfo = data.student_id;
             setSub(subsInfo);
         });
     }, [setUser]);
@@ -36,7 +36,7 @@ const Subjects = () => {
     };
 
     return (
-        <main className="content px-3 py-5">
+        <main className="content px-3 py-2">
             <div className="card border-0" id="subjects">
                 <div className="card-header">
                     <h5 className="card-title">Subjects Enrolled Preview</h5>

@@ -18,6 +18,19 @@ class InformationController extends Controller
         return StudentResource::collection(StudentInfo::query()->orderBy('id', 'desc')->get());
     }
 
+    // This function refers to the specific student_id model in the database
+    public function getStudentByStudentId($student_id)
+    {
+        // Assuming 'student_id' is a column in the students table
+        $student = StudentInfo::where('student_id', $student_id)->first();
+
+        if (!$student) {
+            return response()->json(['error' => 'Student not found'], 404);
+        }
+
+        return response()->json(['data' => $student]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -36,7 +49,6 @@ class InformationController extends Controller
 
             $validatedData = $request->validated();
             
-
             $studentInfo = new StudentInfo($validatedData);
 
             $studentInfo->save();
@@ -58,7 +70,7 @@ class InformationController extends Controller
             $studentInfo = StudentInfo::findOrFail($studentInfoId);
 
             // Log the incoming request data
-            Log::info('Incoming request data:', $request->all());
+            Log::info('Incoming request data for Update:', $request->all());
 
             // Validate the incoming request
             $validatedData = $request->validated();
@@ -77,7 +89,33 @@ class InformationController extends Controller
         }
     }
 
+    public function updateByStudentID(UpdateStudRequest $request, $studentInfoId)
+    {
+        try {
+            // Find the StudentInfo object by student_id
+            $studentInfo = StudentInfo::where('student_id', $studentInfoId)->firstOrFail();
 
+            // Log the incoming request data
+            Log::info('Incoming request data for Update:', $request->all());
+
+            // Validate the incoming request
+            $validatedData = $request->validated();
+
+            // Update the StudentInfo object with the validated data
+            $studentInfo->update($validatedData);
+
+            // Return a success response
+            return response()->json(['message' => 'Student information updated successfully'], 200);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error updating student info', ['error' => $e->getMessage()]);
+
+            // Return an error response
+            return response()->json(['error' => 'Failed to update student information'], 500);
+        }
+    }
+
+ 
     /**
      * Display the specified resource. Mao ning tong sa Resource Folder
      */

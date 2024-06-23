@@ -45,7 +45,7 @@ export default function UpdateUser() {
 
         const request = user.id
             ? axiosClient.put(`/users/${user.id}`, user)
-            : axiosClient.post('/users', user);
+            : axiosClient.post('/users', user); 
 
         request
             .then(() => {

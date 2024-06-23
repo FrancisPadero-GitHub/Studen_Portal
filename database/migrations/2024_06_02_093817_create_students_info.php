@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('students_info', function (Blueprint $table) {
             $table->id();
+            $table->integer('student_id')->nullable(); // nullable ni kay pwede rani e fill in sa admin later on
             $table->string('email')->nullable();
+            $table->string('password')->nullable();
             $table->string('last_name')->nullable();
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();

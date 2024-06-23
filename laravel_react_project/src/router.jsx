@@ -17,6 +17,10 @@ import Grades from './components/Grades.jsx';
 import Subjects from './components/Subjects.jsx';
 import EnrollForm from './components/EnrollForm.jsx';
 import IT2R2 from './components/IT2R2.jsx';
+import EnrollStudents from './components/EnrollStudents.jsx';
+import Notification from './components/Notification.jsx';
+
+
 
 // router ni sa components lahi pud tong router sa data flow
 
@@ -26,7 +30,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
 
-            {
+            { // default render route if the token is active 
                 path: '/',
                 element: <Navigate to="/home" replace />,
             },
@@ -84,7 +88,23 @@ const router = createBrowserRouter([
             {
                 path: '/subjects',
                 element: <Subjects/>,
-            }
+            },
+
+            {
+                path: '/enroll/students',
+                element: <EnrollStudents />,
+            },
+            
+            {
+                path: '/enrollpage',
+                element: <Enrollment />,
+            },
+
+            {
+                path: '/notification',
+                element: <Notification />,
+            },
+
 
         ],
     },
@@ -96,14 +116,17 @@ const router = createBrowserRouter([
                 path: '/login',
                 element: <Login />,
             },
+            
             {
-                path: '/form/new',
+                path: '/enroll/register',
                 element: <StudInfoForm key="studentCreate" />,
             },
-            {
-                path: '/register',
-                element: <Register />,
-            },
+
+            // this one is the old admin registration where
+            // {
+            //     path: '/register',
+            //     element: <Register />,
+            // },
 
         ],
     },

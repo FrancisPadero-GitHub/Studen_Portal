@@ -9,7 +9,7 @@ class EnrollmentResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'enrollment_id' => $this->enrollment_id,
+            'id' => $this->id,
             'course' => $this->course,
             'student_id' => $this-> student_id,
             'program' => $this->program,

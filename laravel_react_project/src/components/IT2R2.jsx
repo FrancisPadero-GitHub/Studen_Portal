@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axiosClient from "../axiosClient";
-import { useStateContext } from "../contexts/contextprovider";
-import { useNavigate } from 'react-router-dom';
 
 const IT2R2 = () => {
     // Sample data (you can replace it with your dynamic data)
@@ -187,7 +184,7 @@ const IT2R2 = () => {
                     </tfoot>
                 </Table>
                 <div className="d-flex justify-content-between mb-4">
-                    <Link type="button" className="btn btn-primary" to="/enrollment">
+                    <Link type="button" className="btn btn-primary" to="/enroll/students">
                         Confirm
                     </Link>
                 </div>

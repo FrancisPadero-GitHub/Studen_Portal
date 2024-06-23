@@ -35,8 +35,6 @@ export default function EnrollForm() {
         });
     }, [setUser]);
 
-    let id = user.id;
-
     const navigate = useNavigate();
     // this data is for the enrollment info
     const enrollData = () => {
@@ -168,6 +166,8 @@ export default function EnrollForm() {
             },
         ];
         console.log(id);
+        
+        // Loops through the array
         courses.forEach((course) => {
             axiosClient
                 .post("/subject", course)
@@ -358,7 +358,7 @@ export default function EnrollForm() {
                                 <div className="d-flex justify-content-between">
                                     <Link
                                         className="btn btn-secondary"
-                                        to="/enrollment"
+                                        to="/enroll/students"
                                     >
                                         Back
                                     </Link>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->integer('student_id'); // Foreign key referencing 'users' table
+            $table->integer('student_id');
             $table->string('code'); // Course code
             $table->string('descriptive'); // Descriptive title
             $table->integer('units'); // Units of the course

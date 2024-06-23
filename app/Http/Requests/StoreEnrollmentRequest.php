@@ -22,9 +22,8 @@ class StoreEnrollmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'enrollment_id' => 'required',
             'course' => 'nullable|string|max:255',
-            'student_id' => 'nullable|string|max:25',
+            'student_id' => 'required|integer',
             'program' => 'nullable|string|max:255',
             'enrolled_date' => 'nullable|date',
             'payment_balance' => 'nullable|string|max:255',

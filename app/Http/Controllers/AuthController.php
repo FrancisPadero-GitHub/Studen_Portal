@@ -36,24 +36,26 @@ class AuthController extends Controller
 
 
     // Login Registration and Validation
+    // Now this is being used for the superuser default account creation and admin (student login creation)
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
-        // Create the user
-        $user = User::create([
+        User::create([
+            'student_id' => $data['student_id'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'account' => $data['account']
         ]);
 
-        // Generate a token for the user
-        $token = $user->createToken('main')->plainTextToken;
+        // Generate a token for the user PS: Deprecated due to adding a super user account
+        // $token = $user->createToken('main')->plainTextToken;
 
         // Return the user data and token in the response
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ], 200);
+        // return response()->json([
+        //     'user' => $user,
+        //     'token' => $token
+        // ], 200);
     }
 
     public function logout(Request $request)

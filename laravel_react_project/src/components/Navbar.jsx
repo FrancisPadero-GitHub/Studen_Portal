@@ -48,27 +48,27 @@ const Navbar = () => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const studentId = data.id;
+            const studentId = data.student_id;
             getStudents(studentId);
         });
     }, [setUser]);
 
-    // To get all the information from the students table
-    // Fetch the user context
-    // State for students' data
+
     const [students, setStudents] = useState({});
     const getStudents = (id) => {
         axiosClient
-            .get(`/students/${id}`)
+            .get(`/students/by-student-id/${id}`)
             .then((response) => {
                 const studentData = response.data.data;
                 setStudents(studentData);
             })
             .catch((error) => {
                 console.error("Error fetching students:", error);
-                setLoading(false); // Stop loading even if there was an error
+                // setLoading(false); // Stop loading even if there was an error
             });
     };
+
+    
     return (
         <nav className="navbar navbar-expand px-3 py-0 border-bottom">
             <button className="btn" id="sidebar-toggle" type="button">
@@ -88,6 +88,7 @@ const Navbar = () => {
                                         ? "/profile_girl.jpg"
                                         : "/profile.jpg"
                                 }
+                                
                                 className="card-img-top"
                                 alt="Profile Image"
                                 id="navpic"

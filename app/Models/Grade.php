@@ -11,7 +11,7 @@ class Grade extends Model
     protected $table = 'grades';
     
     protected $fillable = [
-        'student_id',
+        'student_id', // mao ni tong 2020300597 dli ni tong ID sa table mismo
         'code',
         'descriptive',
         'units',

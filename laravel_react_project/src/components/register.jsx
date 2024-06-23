@@ -4,6 +4,9 @@ import axiosClient from "../axiosClient";
 import { useStateContext } from "../contexts/contextprovider";
 import { useNavigate } from 'react-router-dom';
 
+// This code is for the registration and enrollment of the students when account is not present to login
+
+
 export default function Register() {
     const navigate = useNavigate();
     const emailRef = useRef();

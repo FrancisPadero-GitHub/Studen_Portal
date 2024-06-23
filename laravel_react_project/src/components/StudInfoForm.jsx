@@ -4,7 +4,6 @@ import { useStateContext } from "../contexts/contextprovider";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
-// Pelayo on this mix batak kaayo sa payload oy
 const StudInfoForm = () => {
     const lastNameRef = useRef(null);
     const firstNameRef = useRef(null);
@@ -33,17 +32,9 @@ const StudInfoForm = () => {
     const emergencyAddressRef = useRef(null);
     const emergencyMobileNumberRef = useRef(null);
 
-
-
-    // This is for the toggle password
-    const [showPassword, setShowPassword] = useState(false);
-    const togglePassword = () => {
-        setShowPassword((prevState) => !prevState);
-    }
-
     const handleSubmit = () => {
-        // Prepare payload
         const payload = {
+            // password: "iloveustp",
             last_name: lastNameRef.current.value,
             first_name: firstNameRef.current.value,
             middle_name: middleNameRef.current.value,
@@ -56,7 +47,7 @@ const StudInfoForm = () => {
             civil_status: civilStatusRef.current.value,
             nationality: nationalityRef.current.value,
             religion: religionRef.current.value,
-            email: emailRef.current.value,
+            email: emailRef1.current.value,
             contact_number: contactNumberRef.current.value,
             height: heightRef.current.value,
             weight: weightRef.current.value,
@@ -76,8 +67,8 @@ const StudInfoForm = () => {
         try {
             axiosClient.post("/students", payload)
                 .then(() => {
-                    navigate('/home');
-
+                    window.alert("Form submitted. Please wait for updates from the administrators or visit them at school.");
+                    navigate('/login');
                     console.log("Form submission successful:");
                 })
                 .catch(err => {
@@ -89,45 +80,45 @@ const StudInfoForm = () => {
 
     };
 
-    // this is for the redirection
     const navigate = useNavigate();
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const confirmPasswordRef = useRef();
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const { setUser, setToken } = useStateContext();
-    const [errors, setErrors] = useState(null);
 
-    const Submit = () => {
-        if (passwordRef.current.value !== confirmPassword) {
-            setErrors({ confirmPassword: ["Passwords do not match"] });
-            return;
-        }
+    // This code is for the old registration below
+    // const emailRef = useRef();
+    // const passwordRef = useRef();
+    // const confirmPasswordRef = useRef();
+    // const [confirmPassword, setConfirmPassword] = useState('');
+    // const { setUser, setToken } = useStateContext();
+    // const [errors, setErrors] = useState(null);
 
-        const payload2 = {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-        }
+    // const Submit = () => {
+    //     if (passwordRef.current.value !== confirmPassword) {
+    //         setErrors({ confirmPassword: ["Passwords do not match"] });
+    //         return;
+    //     }
 
-        axiosClient.post("/register", payload2)
-            .then(({ data }) => {
-                navigate('/');
-                setUser(data.user);
-                setToken(data.token);
-            })
-            .catch(err => {
-                const response = err.response;
-                if (response && response.status === 422) {
-                    setErrors(response.data.errors);
-                }
-            });
-    }
+    //     const payload2 = {
+    //         email: emailRef.current.value,
+    //         password: passwordRef.current.value,
+    //     }
+
+    //     axiosClient.post("/register", payload2)
+    //         .then(({ data }) => {
+    //             navigate('/');
+    //             setUser(data.user);
+    //             setToken(data.token);
+    //         })
+    //         .catch(err => {
+    //             const response = err.response;
+    //             if (response && response.status === 422) {
+    //                 setErrors(response.data.errors);
+    //             }
+    //         });
+    // }
 
     const [isConfirmed, setIsConfirmed] = useState(false);
     const combinedSubmit = (ev) => {
         if (isConfirmed) {
-            // Proceed with form submission
-            console.log("Default False");
+
         } else {
             const userConfirmed = window.confirm("Are you sure? After saving, some of your personal information will be retained for verification and cannot be edited.");
             if (userConfirmed) {
@@ -138,10 +129,7 @@ const StudInfoForm = () => {
                 // Call the first function
                 handleSubmit(ev);
 
-                // Call the second function
-                Submit(ev);
             } else {
-
                 console.log("Form submission canceled by user.");
                 ev.preventDefault();
             }
@@ -149,7 +137,7 @@ const StudInfoForm = () => {
     };
 
     return (
-        <main className="content px-4 py-2 mt-3 d-flex flex-column align-items-center ">
+        <main className="content px-4 py-2 mt-3 d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
             <form onSubmit={combinedSubmit}>
                 <div className="card">
                     <div className="card-body" id="regisForm">
@@ -301,64 +289,9 @@ const StudInfoForm = () => {
                                 <input ref={emergencyMobileNumberRef} type="text" className="form-control form-control-md" id="emergency_mobile_number" name="emergency_mobile_number" required />
                             </div>
                         </div>
-                        {/* <div className="text-end">
-                        <button type="submit" className="btn btn-primary btn-sm">Submit</button>
-                    </div> */}
-                        <hr />
-                        <p className="text-center" id="header">Login Account</p>
-
-                        {errors && (
-                            <div className="alert alert-danger d-flex align-items-center" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-exclamation-triangle-fill me-2" viewBox="0 0 16 16">
-                                    <path d="M7.938 2.016a.13.13 0 0 1 .124 0l6.857 11.856c.06.104.016.24-.094.3a.115.115 0 0 1-.1.012H1.273a.115.115 0 0 1-.1-.012.198.198 0 0 1-.094-.3L7.938 2.016zm.012 5.482a.905.905 0 0 0-1.8 0L6.7 10.995a.905.905 0 1 0 1.8 0L7.95 7.498zm0 4.8a.905.905 0 1 0-1.8 0 .905.905 0 0 0 1.8 0z" />
-                                </svg>
-                                <div>
-                                    {Object.keys(errors).map(key => (
-                                        <p key={key} className="mb-0">{errors[key][0]}</p>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                        <div className="mb-1">
-                            <input
-                                ref={emailRef}
-                                type="email"
-                                className="form-control"
-                                placeholder="Email" required />
-                            <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                        <div className="text-end">
+                            <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                         </div>
-
-                        <div className="mb-1">
-                            <input
-                                ref={passwordRef}
-                                type={showPassword ? "text" : "password"}
-                                className="form-control"
-                                placeholder="Password" required />
-                            <div id="passwordHelpBlock" className="form-text">
-                                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                            </div>
-                        </div>
-
-                        <div className="mb-3">
-                            <input
-                                ref={confirmPasswordRef}
-                                type={showPassword ? "text" : "password"}
-                                className="form-control" placeholder="Confirm Password"
-                                onChange={(e) => setConfirmPassword(e.target.value)} required />
-                        </div>
-
-                        <div className="mb-2 form-check">
-                            <input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="checkbox"
-                                name="checkbox"
-                                onChange={togglePassword}
-                                checked={showPassword}
-                            />
-                            <label className="form-check-label" htmlFor="checkbox">Show Password</label>
-                        </div>
-                        <button type="submit" className="btn btn-primary btn-sm btn-block">Register</button>
                         <p className="text-center mb-0">Already Have An Account? <Link to='/login'>Login</Link></p>
                     </div>
                 </div>

@@ -274,9 +274,9 @@ a.sidebar-link {
 
 #profileCard {
     width: 25%;
-    height: 60%;
-    margin-top: 8%;
-    margin-right: 2%
+    height: 100%;
+    margin-top: 5%;
+    margin-right: 2%;
 }
 #formalImg {
     background-color: rgb(138, 131, 131);
@@ -284,6 +284,7 @@ a.sidebar-link {
 
 #formCard {
     width: 100%;
+   
 }
 
 .breadcrumb{
@@ -325,3 +326,59 @@ html[data-bs-theme="dark"] .theme-toggle .fa-moon {
 html[data-bs-theme="light"] .theme-toggle .fa-sun {
     display: none;
 } */
+
+/* Ensure the image scales responsively */
+.responsive-img {
+    max-width: 50%; /* Image width will not exceed its container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image fits within its container */
+    margin: 10px; /* Provide some spacing around the image */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .responsive-img {
+        max-width: 80%; /* Slightly reduce the size on smaller screens */
+    }
+
+    .card-body h4 {
+        font-size: 18px; /* Smaller heading font size */
+    }
+
+    .card-body blockquote {
+        font-size: 12px; /* Smaller quote font size */
+    }
+
+    .card-body p {
+        font-size: 12px; /* Smaller author font size */
+    }
+
+    .btn {
+        padding: 4px 8px; /* Adjust button padding */
+        font-size: 10px; /* Adjust button font size */
+    }
+}
+
+/* Further adjustments for very small screens */
+@media (max-width: 576px) {
+    .responsive-img {
+        max-width: 70%; /* Further reduce size */
+    }
+
+    .card-body h4 {
+        font-size: 16px; /* Even smaller heading font size */
+    }
+
+    .card-body blockquote {
+        font-size: 10px; /* Smaller quote font size */
+    }
+
+    .card-body p {
+        font-size: 10px; /* Smaller author font size */
+    }
+
+    .btn {
+        padding: 3px 6px; /* Adjust button padding */
+        font-size: 9px; /* Adjust button font size */
+    }
+}

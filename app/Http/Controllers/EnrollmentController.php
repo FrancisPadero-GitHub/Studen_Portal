@@ -19,6 +19,29 @@ class EnrollmentController extends Controller
         return EnrollmentResource::collection(Enrollment::query()->orderBy('enrollment_id', 'desc')->get());
     }
 
+
+    public function fetch_by_Id($student_id)
+    {
+        // Log the attempt to fetch student by ID
+        Log::info("Fetching student with ID: $student_id");
+
+        // Assuming 'student_id' is a column in the students table
+        $student = Enrollment::where('student_id', $student_id)->first();
+
+        if (!$student) {
+            // Log that the student was not found
+            Log::warning("Student with ID $student_id not found");
+
+            return response()->json(['error' => 'Student not found'], 404);
+        }
+
+        // Log successful retrieval of student data
+        Log::info("Student with ID $student_id fetched successfully");
+
+        return response()->json(['data' => $student]);
+    }
+
+    
     /**
      * Show the form for creating a new resource.
      */

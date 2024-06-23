@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosClient from "../axiosClient";
+import { useStateContext } from "../contexts/contextprovider";
+
+
 // Sevare final push update (Bootstrap Navigator)
 const Sidebar = () => {
+    const { user, setUser } = useStateContext();
+    // Fetch user and student data on component mount
+    useEffect(() => {
+        axiosClient.get("/user").then(({ data }) => {
+            setUser(data);
+        });
+    }, [setUser]);
+
     return (
         <aside id="sidebar" className="js-sidebar">
             <div className="h-100">
                 <div className="sidebar-logo">
-                    <Link to="#">Student Portal</Link>
+                    <Link to="/">
+                        Student Portal {user.account === 'admin' && ' (Admin)'}
+                    </Link>
                 </div>
                 <ul className="sidebar-nav">
                     <li className="sidebar-header">Quick Navigation</li>
@@ -45,47 +59,60 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                             <li className="sidebar-item">
-                                <Link to="/enrollment" className="sidebar-link">
+                                <Link to="/enrollpage" className="sidebar-link">
                                     <i className="fa-solid fa-scroll ps-2 pe-2"></i>
                                     Enrollment
                                 </Link>
                             </li>
                         </ul>
                     </li>
-                    <li className="sidebar-header">Admin Only Options (Daot)</li>
-                    <li className="sidebar-item">
-                        <a
-                            href="#"
-                            className="sidebar-link collapsed"
-                            data-bs-target="#auth"
-                            data-bs-toggle="collapse"
-                            aria-expanded="false"
-                        >
-                            <i className="fa-solid fa-user-tie pe-2"></i>
-                            Manage
-                        </a>
-                        <ul
-                            id="auth"
-                            className="sidebar-dropdown list-unstyled collapse"
-                            data-bs-parent="#sidebar"
-                        >
+
+                    {/* Conditionally render admin options */}
+                    {user.account === 'admin' && (
+                        <>
+                            <li className="sidebar-header">Admin Options</li>
                             <li className="sidebar-item">
-                                <Link
-                                    to="#"
-                                    className="sidebar-link"
+                                <a
+                                    href="#"
+                                    className="sidebar-link collapsed"
+                                    data-bs-target="#auth"
+                                    data-bs-toggle="collapse"
+                                    aria-expanded="false"
                                 >
-                                    <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
-                                    Students
-                                </Link>
+                                    <i className="fa-solid fa-user-tie pe-2"></i>
+                                    Manage
+                                </a>
+                                <ul
+                                    id="auth"
+                                    className="sidebar-dropdown list-unstyled collapse"
+                                    data-bs-parent="#sidebar"
+                                >
+                                    <li className="sidebar-item">
+                                        <Link
+                                            to="/studentlist"
+                                            className="sidebar-link"
+                                        >
+                                            <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
+                                            Login Credentials
+                                        </Link>
+                                    </li>
+                                    <li className="sidebar-item">
+                                        <Link to="/enroll/students" className="sidebar-link">
+                                            <i className="fa-regular fa-address-card pe-2 ps-2"></i>
+                                            Enroll Students
+                                        </Link>
+                                    </li>
+                                </ul>
                             </li>
                             <li className="sidebar-item">
-                                <Link to="#" className="sidebar-link">
-                                    <i className="fa-solid fa-lock pe-2 ps-2"></i>
-                                    Register
+                                <Link to="/notification" className="sidebar-link">
+                                    <i className="fa-regular fa-bell pe-2"></i>
+                                    Notify Students
                                 </Link>
                             </li>
-                        </ul>
-                    </li>
+                        </>
+                    )}
+
                 </ul>
             </div>
         </aside>

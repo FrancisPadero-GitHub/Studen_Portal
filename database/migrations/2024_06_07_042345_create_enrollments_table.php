@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('enrollments', function (Blueprint $table) {
-            $table->id('enrollment_id');
+            $table->id();
             $table->string('course')->nullable();
-            $table->string('student_id')->nullable();
+            $table->integer('student_id');
             $table->string('program')->nullable();
             $table->date('enrolled_date')->nullable();
             $table->string('payment_balance')->nullable();

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useStateContext } from "../contexts/contextprovider";
 import { Link } from "react-router-dom";
 
+
 // Displays the Current (You have to connect)
 
 export default function Enrollment() {
@@ -13,17 +14,18 @@ export default function Enrollment() {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const enrollInfo = data.id;
+            const enrollInfo = data.student_id;
             getEnrollInfo(enrollInfo);
         });
     }, [setUser]);
 
     const [loading, setLoading] = useState(false);
     const [enrollment, setEnrollmetnInfo] = useState({});
+
     const getEnrollInfo = (id) => {
         setLoading(true);
         axiosClient
-            .get(`/enrollment/${id}`)
+            .get(`/enrollment/by-student-id/${id}`)
             .then((response) => {
                 const enrollInfo = response.data.data;
                 setEnrollmetnInfo(enrollInfo);
@@ -35,17 +37,9 @@ export default function Enrollment() {
             });
     };
 
-    const isDisabled = enrollment.enrollment_Id > 0;
+
     return (
         <main className="content px-3 py-2">
-            <div className="text-end m-2">
-                {isDisabled && (
-                    <Link className="btn btn-primary" to="/enrollform/new">
-                        Enroll
-                    </Link>
-                )}
-            </div>
-
             <div className="card border-0">
                 <div className="card-header">
                     <h5 className="card-title">Enrollment Status</h5>
@@ -75,10 +69,10 @@ export default function Enrollment() {
                                 </tr>
                             </tbody>
                         )}
-                        {!loading && enrollment.enrollment_id > 0 ? (
+                        {!loading && enrollment.id > 0 ? (
                             <tbody>
                                 <tr>
-                                    <td>{enrollment.enrollment_id}</td>
+                                    <td>{enrollment.id}</td>
                                     <td>{enrollment.program}</td>
                                     <td>{enrollment.course}</td>
                                     <td>{enrollment.enrolled_date}</td>

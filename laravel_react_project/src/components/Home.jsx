@@ -6,80 +6,126 @@ import { useStateContext } from "../contexts/contextprovider";
 // Displays the Current (You have to connect)
 const Home = () => {
     const { user, setUser } = useStateContext();
-    // Fetch user and student data on component mount
+    const quotes = [
+        {
+            text: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+            author: "Winston Churchill"
+        },
+        {
+            text: "Believe you can and you're halfway there.",
+            author: "Theodore Roosevelt"
+        },
+        {
+            text: "The future belongs to those who believe in the beauty of their dreams.",
+            author: "Eleanor Roosevelt"
+        },
+        {
+            text: "Your time is limited, so don't waste it living someone else's life.",
+            author: "Steve Jobs"
+        },
+        {
+            text: "Education is the passport to the future, for tomorrow belongs to those who prepare for it today.",
+            author: "Malcolm X"
+        }
+    ];
+    // State to hold the current quote
+    const [currentQuote, setCurrentQuote] = useState(getRandomQuote());
+
+    // Function to pick a random quote
+    function getRandomQuote() {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        return quotes[randomIndex];
+    }
+
+    // Function to update the quote with a new random quote
+    const handleNewQuote = () => {
+        setCurrentQuote(getRandomQuote());
+    };
+
+
+    // State management for students, enrollments, subjects, and notifications
+    const [students, setStudents] = useState({});
+    const [enroll, setEnroll] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [subjects, setSubjects] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+
+    // Fetch user and associated data on component mount
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
-            // Fetch the student's data using the user's ID
-            const studentId = data.id;
+            const studentId = data.student_id;
             getStudents(studentId);
             getEnrollmentInfo(studentId);
             setSub(studentId);
+            fetchNotifications(studentId); // Fetch notifications as well
         });
     }, [setUser]);
 
-    const [students, setStudents] = useState({});
+    // Function to fetch student data by ID
     const getStudents = (id) => {
-        axiosClient
-            .get(`/students/${id}`)
+        axiosClient.get(`/students/by-student-id/${id}`)
             .then((response) => {
-                const studentData = response.data.data;
-                setStudents(studentData);
+                setStudents(response.data.data);
             })
             .catch((error) => {
                 console.error("Error fetching students:", error);
             });
     };
 
-    const [enroll, setEnroll] = useState({});
-    // To get the student ID from the enrollment table
+    // Function to fetch enrollment data by student ID
     const getEnrollmentInfo = (id) => {
-        axiosClient
-            .get(`/enrollment/${id}`)
+        axiosClient.get(`/enrollment/by-student-id/${id}`)
             .then((response) => {
-                const enrollData = response.data.data;
-                setEnroll(enrollData);
+                setEnroll(response.data.data);
             })
             .catch((error) => {
-                console.error("Error fetching students:", error);
+                console.error("Error fetching enrollment info:", error);
             });
     };
 
-    //schedule grab
-    const [loading, setLoading] = useState(false);
-    const [subjects, setSubjects] = useState([]);
+    // Function to fetch subjects based on student ID
     const setSub = (userID) => {
-        let stringID = userID;
         setLoading(true);
-        axiosClient
-            .get(`/subject`)
+        axiosClient.get(`/subject`)
             .then((response) => {
                 const allSubjects = response.data.data;
                 const filteredSubjects = allSubjects.filter(
-                    (subjects) => subjects.student_id == stringID
+                    (subjects) => subjects.student_id === userID
                 );
-                console.log(filteredSubjects);
                 setSubjects(filteredSubjects);
                 setLoading(false);
             })
             .catch((error) => {
-                console.error("Error fetching students:", error);
+                console.error("Error fetching subjects:", error);
                 setLoading(false); // Stop loading even if there was an error
             });
     };
 
+    // Function to fetch notifications
+    const fetchNotifications = () => {
+        axiosClient.get('/notification')
+            .then((response) => {
+                setNotifications(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching notifications:", error);
+            });
+    };
+
+
     return (
         <main className="content px-3 py-2">
-            <nav aria-label="breadcrumb">
+            {/* <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item active" aria-current="page">
                         Home
                     </li>
                 </ol>
-            </nav>
+            </nav> */}
 
             <div className="container-fluid">
-                <div className="mb-3">
+                <div className="mb-3 mt-3">
                     <h4>Student Dashboard</h4>
                 </div>
                 <div className="row">
@@ -96,19 +142,27 @@ const Home = () => {
                                                 Welcome, {students.first_name}{" "}
                                                 {students.middle_initial
                                                     ? students.middle_initial +
-                                                      "."
+                                                    "."
                                                     : ""}{" "}
                                                 {students.last_name}
                                             </h4>
-                                            <p className="mb-0">
-                                                Random Motivation Qoutes
-                                            </p>
+                                            <div style={{ textAlign: 'center', margin: '30px 0px 0px 0px' }}>
+                                                <blockquote style={{ fontSize: '14px', fontStyle: 'italic', margin: '10px 0' }}>
+                                                    "{currentQuote.text}"
+                                                </blockquote>
+                                                <p style={{ fontSize: '14px', margin: '10px 0', fontWeight: 'bold' }}>
+                                                    - {currentQuote.author}
+                                                </p>
+                                                <button className="btn btn-primary" onClick={handleNewQuote} style={{ padding: '5px 5px', fontSize: '12px' }}>
+                                                    New Quote
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="col-6 align-self-end text-end">
+                                    <div className="col-6 align-self-center text-end">
                                         <img
                                             src="/customer-support.jpg"
-                                            className="img-fluid illustration-img"
+                                            className="rounded responsive-img"
                                             alt="Qoutes Image"
                                         />
                                     </div>
@@ -122,23 +176,25 @@ const Home = () => {
                                 <div className="d-flex align-items-start">
                                     <div className="flex-grow-1">
                                         {/* you have to put an if statement here if the amount is below 2000 set the  text to green otherwise this text design red */}
-                                        <h4 className="mb-2 text-danger-emphasis">
+                                        <pre className="mb-2 text-danger-emphasis h3">
+                                            ₱
                                             {enroll && enroll.payment_balance
                                                 ? enroll.payment_balance.toLocaleString(
-                                                      "en-US",
-                                                      {
-                                                          style: "currency",
-                                                          currency: "USD",
-                                                      }
-                                                  )
+                                                    "en-US",
+                                                    {
+                                                        style: " currency",
+                                                        currency: "USD",
+                                                    }
+                                                )
                                                 : "N/A"}
-                                        </h4>
+                                        </pre>
                                         <p className="mb-2">
                                             Outstanding Balance
                                         </p>
                                         <button
                                             type="button"
-                                            className="btn btn-success"
+                                            className="btn btn-success mt-3"
+                                            disabled
                                         >
                                             Settle
                                         </button>
@@ -152,7 +208,31 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="card border-0" id="subjects">
+
+                {/* Notifications Section */}
+                <div className="container-fluid notification-container mt-0" style={{ fontSize: '14px' }}>
+                    <h4 className="mb-3">Notifications</h4>
+                    <div className="row">
+                        {notifications.length > 0 ? (
+                            notifications.map((notification) => (
+                                <div key={notification.id} className="col-md-4 mb-3">
+                                    <div className='card notification-card border-success'>
+                                        <div className='card-header bg-success text-white' style={{ fontSize: '16px', fontWeight: 'medium', letterSpacing: '2px' }}>
+                                            {notification.title}
+                                        </div>
+                                        <div className="card-body">
+                                            <p className="card-text">{notification.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div>No notifications available.</div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="card border-0 mt-1" id="subjects">
                     <div className="card-header">
                         <h5 className="card-title">Quick Subjects Enrolled Preview</h5>
                         {/* Add something here that reflects what Semester is the schedule for */}
@@ -181,7 +261,7 @@ const Home = () => {
                                 <tbody>
                                     <tr>
                                         <td
-                                            colSpan="15"
+                                            colSpan="11"
                                             className="text-center"
                                         >
                                             Loading...
@@ -215,7 +295,7 @@ const Home = () => {
                                 <tbody>
                                     <tr>
                                         <td
-                                            colSpan="15"
+                                            colSpan="11"
                                             className="text-center"
                                         >
                                             No student data available.

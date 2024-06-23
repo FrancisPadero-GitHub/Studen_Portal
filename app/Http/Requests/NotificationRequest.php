@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEnrollmentRequest extends FormRequest
+class NotificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,15 +19,11 @@ class UpdateEnrollmentRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'course' => 'nullable|string|max:255',
-            'student_id' => 'nullable|string|max:25',
-            'program' => 'nullable|string|max:255',
-            'enrolled_date' => 'nullable|date',
-            'payment_balance' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
         ];
     }
 }

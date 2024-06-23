@@ -11,7 +11,7 @@ const Grades = () => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const subsInfo = data.id;
+            const subsInfo = data.student_id;
             setGrades(subsInfo);
         });
     }, [setUser]);
@@ -25,7 +25,7 @@ const Grades = () => {
             .then(response => {
                 const allSubjects = response.data.data;
                 const fildteredGradeData = allSubjects.filter(grade => grade.student_id == stringID);
-                console.log(fildteredGradeData);
+                
                 setstudGrades(fildteredGradeData);
                 setLoading(false);
             })
@@ -36,7 +36,7 @@ const Grades = () => {
     };
 
     return (
-        <main className="content px-3 py-5">
+        <main className="content px-3 py-2">
             <div className="card border-0" id="subjects">
                 <div className="card-header">
                     <h5 className="card-title">Report of Grades</h5>

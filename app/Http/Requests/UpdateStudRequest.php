@@ -24,12 +24,13 @@ class UpdateStudRequest extends FormRequest
     public function rules()
     {
         return [
-            
-            'email' => 'required|email|max:255',
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            'middle_initial' => 'required|string|max:1',
+            'student_id' => 'nullable|integer',
+            'email' => 'nullable|email|max:255',
+            'password' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'first_name' => 'nullable|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'middle_initial' => 'nullable|string|max:1',
             'ext' => 'nullable|string|max:255',
             'gender' => 'nullable|in:Male,Female,Other', // Assuming gender should be one of these values
             'age' => 'nullable|string|max:2',
@@ -38,7 +39,7 @@ class UpdateStudRequest extends FormRequest
             'civil_status' => 'nullable|string|max:255',
             'nationality' => 'nullable|string|max:255',
             'religion' => 'nullable|string|max:255',
-            'contact_number' => 'required|string|max:20', // Assuming contact number is a string with max length 20
+            'contact_number' => 'nullable|string|max:20', // Assuming contact number is a string with max length 20
             'height' => 'nullable|numeric|min:0', // Assuming height is a non-negative number
             'weight' => 'nullable|numeric|min:0', // Assuming weight is a non-negative number
             'blood_type' => 'nullable|string|max:6', // Assuming blood type can be A, B, AB, O, etc.
