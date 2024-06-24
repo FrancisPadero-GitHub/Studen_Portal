@@ -157,7 +157,7 @@ export default function Notification() {
                                         <td>{notifs.title}</td>
                                         <td>{notifs.description}</td>
                                         <td className='text-end' style={{ padding: '5px', whiteSpace: 'nowrap' }}>
-                                            <Button
+                                            {/* <Button
                                                 variant="secondary "
                                                 
                                                 style={{
@@ -171,7 +171,7 @@ export default function Notification() {
                                             // onClick={() => handleEdit(notifs)} // Assuming there's an edit handler
                                             >
                                                 Edit
-                                            </Button>
+                                            </Button> */}
 
                                             <Button
                                                 variant="danger"

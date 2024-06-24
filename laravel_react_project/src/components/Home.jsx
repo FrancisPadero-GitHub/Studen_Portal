@@ -232,80 +232,114 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="card border-0 mt-1" id="subjects">
+                <div className="card border-0 mt-3" id="subjects">
                     <div className="card-header">
-                        <h5 className="card-title">Quick Subjects Enrolled Preview</h5>
+                        <h5 className="card-title">Quick Subjects Schedule</h5>
                         {/* Add something here that reflects what Semester is the schedule for */}
                         <h6 className="card-subtitle text-muted">
                             2nd Year 2nd Semester
                         </h6>
                     </div>
                     <div className="card-body">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Code</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Lec Unit</th>
-                                    <th scope="col">Lab Unit</th>
-                                    <th scope="col">Credit Unit</th>
-                                    <th scope="col">Section</th>
-                                    <th scope="col">Schedule</th>
-                                    <th scope="col">Teacher</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            {loading && (
-                                <tbody>
+                        <div className="table-responsive">
+                            <table className="table table-bordered text-center">
+                                <thead>
                                     <tr>
-                                        <td
-                                            colSpan="11"
-                                            className="text-center"
-                                        >
-                                            Loading...
-                                        </td>
+                                        <th scope="col">Monday</th>
+                                        <th scope="col">Tuesday</th>
+                                        <th scope="col">Wednesday</th>
+                                        <th scope="col">Thursday</th>
+                                        <th scope="col">Friday</th>
+                                        <th scope="col">Saturday</th>
                                     </tr>
-                                </tbody>
-                            )}
-                            {!loading && subjects.length > 0 ? (
+                                </thead>
                                 <tbody>
-                                    {subjects.map((sub, index) => (
-                                        <tr key={index}>
-                                            <td>{sub.id}</td>
-                                            <td>{sub.code}</td>
-                                            <td>{sub.description}</td>
-                                            <td>{sub.lec_unit}</td>
-                                            <td>{sub.lab_unit}</td>
-                                            <td>{sub.credit_unit}</td>
-                                            <td>{sub.section}</td>
-                                            <td>
-                                                {sub.schedule.map((time, i) => (
-                                                    <div key={i}>{time}</div>
-                                                ))}
-                                            </td>
-                                            <td>{sub.teacher}</td>
-                                            <td>{sub.email}</td>
-                                            <td>{sub.status}</td>
+                                    {loading ? (
+                                        <tr>
+                                            <td colSpan="6" className="text-center">Loading...</td>
                                         </tr>
-                                    ))}
+                                    ) : subjects.length > 0 ? (
+                                        subjects.map((subject, index) => (
+                                            <tr key={index}>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('M'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('T'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('W'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('Th'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('F'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                                <td>
+                                                    {subject.schedule
+                                                        .filter(time => time.startsWith('S'))
+                                                        .map((time, idx) => (
+                                                            <div key={idx} className="schedule-item">
+                                                                <div>{time}</div>
+                                                                <div>{subject.teacher}</div>
+                                                                <div className="description">{subject.description}</div>
+                                                            </div>
+                                                        ))}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className="text-center">No student data available.</td>
+                                        </tr>
+                                    )}
                                 </tbody>
-                            ) : (
-                                <tbody>
-                                    <tr>
-                                        <td
-                                            colSpan="11"
-                                            className="text-center"
-                                        >
-                                            No student data available.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            )}
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </main>
     );
