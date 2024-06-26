@@ -22,7 +22,7 @@ class StoreGradesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'required|integer', // Ensures student_id exists in users table
+            'student_id' => 'required|string|max:255', // Ensures student_id exists in users table
             'code' => 'required|string|max:255',
             'descriptive' => 'required|string|max:255',
             'units' => 'required|integer|min:1', // Assuming a course must have at least 1 unit

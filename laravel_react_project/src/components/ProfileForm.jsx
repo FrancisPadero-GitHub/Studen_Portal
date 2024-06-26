@@ -4,7 +4,7 @@ import { useStateContext } from "../contexts/contextprovider";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
-const StudInfoForm = () => {
+const ProfileForm = () => {
     const lastNameRef = useRef(null);
     const firstNameRef = useRef(null);
     const middleNameRef = useRef(null);
@@ -32,9 +32,75 @@ const StudInfoForm = () => {
     const emergencyAddressRef = useRef(null);
     const emergencyMobileNumberRef = useRef(null);
 
+
+    const generateInformation = () => {
+        const payload = {
+            last_name: 'Padero',
+            first_name: 'Francis',
+            middle_name: 'Sevilla',
+            middle_initial: 'S',
+            ext: 'none',
+            gender: 'Male',
+            age: '23',
+            date_of_birth: '2001-10-20',
+            place_of_birth: 'CDO',
+            civil_status: 'Single',
+            nationality: 'Filipino',
+            religion: 'Catholic',
+            email: 'francispadero2001@gmail.com',
+            contact_number: '09262503126',
+            height: 23,
+            weight: 23,
+            blood_type: 'B',
+            ethnicity: 'Visayan',
+            address: 'Tablon Purok 7, Tablon',
+            province: 'Misamis Oriental',
+            municipality: 'Cagayan de Oro City',
+            barangay: 'Tablon Nestle',
+            zip_code: '9000',
+            emergency_contact_person: 'Mom',
+            emergency_address: 'Tablon Nestle',
+            emergency_mobile_number: '09262503126',
+        }
+        // Send POST request to your server using Axios
+        try {
+            axiosClient.post("/personalInfo", payload)
+                .then(() => {
+                    window.alert("Form submitted. Please wait for updates from the administrators or visit them at school.");
+                    navigate('/login');
+                    console.log("Form submission successful:");
+                })
+                .catch(err => {
+                    console.error("Form submission failed:", err);
+                });
+        } catch (error) {
+            console.error("An error occurred while submitting the form:", error);
+        }
+
+    }
+
+    const generateButton = (ev) => {
+        if (isConfirmed) {
+
+        } else {
+            const userConfirmed = window.confirm("Are you sure? After saving, some of your personal information will be retained for verification and cannot be edited.");
+            if (userConfirmed) {
+                setIsConfirmed(true); // Update the state to indicate user confirmation
+                // Prevent default form submission behavior
+                ev.preventDefault();
+
+                // Call the first function
+                generateInformation(ev);
+
+            } else {
+                console.log("Form submission canceled by user.");
+                ev.preventDefault();
+            }
+        }
+    }
+
     const handleSubmit = () => {
         const payload = {
-            // password: "iloveustp",
             last_name: lastNameRef.current.value,
             first_name: firstNameRef.current.value,
             middle_name: middleNameRef.current.value,
@@ -65,7 +131,7 @@ const StudInfoForm = () => {
 
         // Send POST request to your server using Axios
         try {
-            axiosClient.post("/students", payload)
+            axiosClient.post("/personalInfo", payload)
                 .then(() => {
                     window.alert("Form submitted. Please wait for updates from the administrators or visit them at school.");
                     navigate('/login');
@@ -81,39 +147,6 @@ const StudInfoForm = () => {
     };
 
     const navigate = useNavigate();
-
-    // This code is for the old registration below
-    // const emailRef = useRef();
-    // const passwordRef = useRef();
-    // const confirmPasswordRef = useRef();
-    // const [confirmPassword, setConfirmPassword] = useState('');
-    // const { setUser, setToken } = useStateContext();
-    // const [errors, setErrors] = useState(null);
-
-    // const Submit = () => {
-    //     if (passwordRef.current.value !== confirmPassword) {
-    //         setErrors({ confirmPassword: ["Passwords do not match"] });
-    //         return;
-    //     }
-
-    //     const payload2 = {
-    //         email: emailRef.current.value,
-    //         password: passwordRef.current.value,
-    //     }
-
-    //     axiosClient.post("/register", payload2)
-    //         .then(({ data }) => {
-    //             navigate('/');
-    //             setUser(data.user);
-    //             setToken(data.token);
-    //         })
-    //         .catch(err => {
-    //             const response = err.response;
-    //             if (response && response.status === 422) {
-    //                 setErrors(response.data.errors);
-    //             }
-    //         });
-    // }
 
     const [isConfirmed, setIsConfirmed] = useState(false);
     const combinedSubmit = (ev) => {
@@ -289,6 +322,12 @@ const StudInfoForm = () => {
                                 <input ref={emergencyMobileNumberRef} type="text" className="form-control form-control-md" id="emergency_mobile_number" name="emergency_mobile_number" required />
                             </div>
                         </div>
+
+                        <div className="text-start">
+                            <button className="btn btn-secondary btn-sm" onClick={generateButton}>Generate Demo</button>
+                        </div>
+
+
                         <div className="text-end">
                             <button type="submit" className="btn btn-primary btn-sm">Submit</button>
                         </div>
@@ -300,4 +339,4 @@ const StudInfoForm = () => {
     );
 }
 
-export default StudInfoForm;
+export default ProfileForm;

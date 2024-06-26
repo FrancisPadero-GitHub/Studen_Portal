@@ -8,9 +8,7 @@ import Dashboard from './components/Dashboard.jsx';
 import InitialLayout from './components/InitialLayout.jsx';
 import UpdateUser from './components/UpdateUser.jsx';
 import Home from './components/Home.jsx';
-import StudInfoForm from './components/StudInfoForm.jsx';
-import Register from './components/Register.jsx';
-import StudentProfile from './components/StudentProfile.jsx';
+import PersonalProfile from './components/PersonalProfile.jsx';
 import StudentList from './components/StudentList';
 import Enrollment from './components/Enrollment.jsx';
 import Grades from './components/Grades.jsx';
@@ -19,6 +17,9 @@ import EnrollForm from './components/EnrollForm.jsx';
 import IT2R2 from './components/IT2R2.jsx';
 import EnrollStudents from './components/EnrollStudents.jsx';
 import Notification from './components/Notification.jsx';
+import AdminList from './components/AdminList.jsx';
+import ProfileForm from './components/ProfileForm.jsx';
+import Register from './components/Register.jsx';
 
 
 
@@ -40,6 +41,12 @@ const router = createBrowserRouter([
                 element: <StudentList />,
             },
 
+            
+            {
+                path: '/loginupdate',
+                element: <UpdateUser />,
+            },
+
             // {
             //     path: '/createUsers/new',
             //     element: <UpdateUser key="userCreate" />,
@@ -56,8 +63,8 @@ const router = createBrowserRouter([
             },
 
             {
-                path: '/studentprofile',
-                element: <StudentProfile />,
+                path: '/profile',
+                element: <PersonalProfile />,
             },
 
             {
@@ -106,6 +113,21 @@ const router = createBrowserRouter([
             },
 
 
+            {
+                path: '/adminlist',
+                element: <AdminList />,
+            },
+
+            {
+                path: '/login/register',
+                element: <Register />,
+            },
+
+            {
+                path: '/register/profile/new',
+                element: <ProfileForm />,
+            },
+
         ],
     },
     {
@@ -118,8 +140,8 @@ const router = createBrowserRouter([
             },
             
             {
-                path: '/enroll/register',
-                element: <StudInfoForm key="studentCreate" />,
+                path: '/register',
+                element: <ProfileForm key="studentCreate" />,
             },
 
             // this one is the old admin registration where

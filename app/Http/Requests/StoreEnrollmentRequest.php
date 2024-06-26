@@ -23,7 +23,7 @@ class StoreEnrollmentRequest extends FormRequest
     {
         return [
             'course' => 'nullable|string|max:255',
-            'student_id' => 'required|integer',
+            'student_id' => 'required|string|max:255',
             'program' => 'nullable|string|max:255',
             'enrolled_date' => 'nullable|date',
             'payment_balance' => 'nullable|string|max:255',

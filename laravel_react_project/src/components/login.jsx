@@ -13,7 +13,7 @@ export default function Login() {
     // Default Login Credentials for Super User admin. PS: This will automatically runs in the background once the program is being initiated
     // Token is not available for this by default to avoid routing to home upon running
     const superUserCredentials = {
-        login_id: 102001,
+        login_id: "102001",
         email: "developer@gmail.com",
         password: "test1234",
         account: "developer"
@@ -163,7 +163,7 @@ export default function Login() {
                             <div className="d-flex align-items-center mt-2">
                                 <p className="mb-0">Need an account?</p>
                                 <p className="mb-0 ms-2">
-                                    <Link to="/enroll/register">Register Now!</Link>
+                                    <Link to="/register">Register Now!</Link>
                                 </p>
                             </div>
                         </form>

@@ -4,41 +4,42 @@ import { useStateContext } from "../contexts/contextprovider";
 import { useNavigate } from 'react-router-dom';
 
 // ANN FINAL UPDATE
-export default function StudentProfile() {
+export default function PersonalProfile() {
     // Fetch the user context
     const { user, setUser } = useStateContext();
 
-    // State for students' data
-    const [students, setStudents] = useState({});
+    // State for personal' data
+    const [personalInfo, setInfo] = useState({});
 
     // State for form inputs
     const [formData, setFormData] = useState({});
     // State for loading status
     const [loading, setLoading] = useState(true);
 
-    // Fetch user and student data on component mount
+    // Fetch user and personal data on component mount
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
-            // Fetch the student's data using the user's ID
-            const studentId = data.student_id;
-            getStudents(studentId);
-            getEnrollmentInfo(studentId);
+            // Fetch the personal's data using the user's ID
+            const personal_id = data.login_id;
+            console.log(personal_id)
+            getProfile(personal_id);
+            // getEnrollmentInfo(personal_id);
         });
     }, [setUser]);
 
-    // To get all the information from the students table
-    const getStudents = (id) => {
+    // To get all the information from the personal information table
+    const getProfile = (id) => {
         axiosClient
-            .get(`/students/by-student-id/${id}`)
+            .get(`/personalInfo/fetch/${id}`)
             .then((response) => {
-                const studentData = response.data.data;
-                setStudents(studentData);
-                setFormData(studentData); // Populate form with fetched data
+                const profileData = response.data.data;
+                setInfo(profileData);
+                setFormData(profileData); // Populate form with fetched data
                 setLoading(false); // Data loaded, set loading to false
             })
             .catch((error) => {
-                console.error("Error fetching students:", error);
+                console.error("Error fetching profile information:", error);
                 setLoading(false); // Stop loading even if there was an error
             });
     };
@@ -53,7 +54,7 @@ export default function StudentProfile() {
                 setEnroll(enrollData);
             })
             .catch((error) => {
-                console.error("Error fetching students:", error);
+                console.error("Error fetching profile enrollment information:", error);
             });
     };
 
@@ -70,10 +71,10 @@ export default function StudentProfile() {
     const onSubmit = (ev) => {
         ev.preventDefault();
         axiosClient
-            .put(`/students/update_by_student_id/${formData.student_id}`, formData)
+            .put(`/personalInfo/update/${formData.info_id}`, formData)
             .then(() => {
                 // Optionally, you can fetch the updated data again to refresh the state
-                getStudents(user.id);
+                // getProfile(user.login_id);
                 alert("Profile updated successfully!");
                 window.location.reload(); // This will refresh the page
             })
@@ -96,7 +97,7 @@ export default function StudentProfile() {
                     <div className="card" id="profileCard">
                         <img
                             src={
-                                students.gender === "Female"
+                                personalInfo.gender === "Female"
                                     ? "/profile_girl.jpg"
                                     : "/profile.jpg"
                             }
@@ -106,14 +107,14 @@ export default function StudentProfile() {
                         />
                         <div className="card-body">
                             <p className="card-text lead text-center mb-0">
-                                {students.first_name}{" "}
-                                {students.middle_initial
-                                    ? students.middle_initial + "."
+                                {personalInfo.first_name}{" "}
+                                {personalInfo.middle_initial
+                                    ? personalInfo.middle_initial + "."
                                     : ""}{" "}
-                                {students.last_name}
+                                {personalInfo.last_name}
                             </p>
                             <div className="text-center mb-1">
-                                <em>{formData.student_id}</em>
+                                <em>{formData.info_id}</em>
                             </div>
                             <div className="text-center">
                                 <p className="text-info">STUDENT</p>

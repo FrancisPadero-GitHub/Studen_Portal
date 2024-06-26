@@ -34,6 +34,7 @@ const Navbar = () => {
             setUser(data);
         });
     }, []);
+
     // Logout Option
     const onLogout = (ev) => {
         ev.preventDefault();
@@ -48,7 +49,7 @@ const Navbar = () => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const studentId = data.student_id;
+            const studentId = data.login_id;
             getStudents(studentId);
         });
     }, [setUser]);
@@ -57,7 +58,7 @@ const Navbar = () => {
     const [students, setStudents] = useState({});
     const getStudents = (id) => {
         axiosClient
-            .get(`/students/by-student-id/${id}`)
+            .get(`/personalInfo/fetch/${id}`)
             .then((response) => {
                 const studentData = response.data.data;
                 setStudents(studentData);
@@ -96,7 +97,7 @@ const Navbar = () => {
                         </a>
                         <div className="dropdown-menu dropdown-menu-end">
                             <Link
-                                to="/studentprofile"
+                                to="/profile"
                                 className="dropdown-item"
                             >
                                 Profile

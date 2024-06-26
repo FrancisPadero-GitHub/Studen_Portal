@@ -29,17 +29,13 @@ export default function Register() {
             setErrors({ confirmPassword: ["Passwords do not match"] });
             return;
         }
-
         const payload = {
             email: emailRef.current.value,
             password: passwordRef.current.value,
         }
-
         axiosClient.post("/register", payload)
-            .then(({ data }) => {
+            .then(() => {
                 navigate('/'); // this one will proceed to dashboard even if it doesn't state it
-                setUser(data.user);
-                setToken(data.token);
             })
             .catch(err => {
                 const response = err.response;

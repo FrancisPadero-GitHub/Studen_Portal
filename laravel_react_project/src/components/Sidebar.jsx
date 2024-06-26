@@ -21,7 +21,7 @@ const Sidebar = () => {
                     <Link to="/">
                         Byte Me Portal
                          <div className="text-center" style={{fontSize: '12px'}}>
-                            {user.account === 'developer' && ' (SA mode)'}
+                            {user.account === 'developer' && ' (Developer mode)'}
                          </div>
                     </Link>
                 </div>
@@ -69,10 +69,87 @@ const Sidebar = () => {
                             </li>
                         </ul>
                     </li>
+                    
 
                     {/* Conditionally render admin options */}
                     {user.account === 'developer' && (
-                        <>
+                        <>  
+                            {/* administrators ps: this is only available on SA mode*/}
+                            <li className="sidebar-header">Manage Administrators</li>
+                            {/* shows all accounts login accounts and to be able to edit them or show */}
+                                    
+                            <li className="sidebar-item">
+                                <a
+                                    href="#"
+                                    className="sidebar-link collapsed"
+                                    data-bs-target="#admin"
+                                    data-bs-toggle="collapse"
+                                    aria-expanded="false"
+                                >
+                                    <i className="fa-solid fa-user-tie pe-2"></i>
+                                    Admins
+                                </a>
+                                <ul
+                                    id="admin"
+                                    className="sidebar-dropdown list-unstyled collapse"
+                                    data-bs-parent="#sidebar"
+                                >
+                                    {/* shows a list of administrators that are registered and add CRUD  */}
+                                    <li className="sidebar-item">
+                                        <Link
+                                            to="/adminlist"
+                                            className="sidebar-link"
+                                        >
+                                            <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
+                                            List of Admins
+                                        </Link>
+                                    </li>
+
+                                    
+                                </ul>
+                            </li>
+
+                            {/* instructors */}
+                            <li className="sidebar-header">Manage Instructors</li>
+                            <li className="sidebar-item">
+                                <a
+                                    href="#"
+                                    className="sidebar-link collapsed"
+                                    data-bs-target="#instructors"
+                                    data-bs-toggle="collapse"
+                                    aria-expanded="false"
+                                >
+                                    <i className="fa-solid fa-user-tie pe-2"></i>
+                                    Instructors
+                                </a>
+                                <ul
+                                    id="instructors"
+                                    className="sidebar-dropdown list-unstyled collapse"
+                                    data-bs-parent="#sidebar"
+                                >
+                                    {/* shows a list of instructors that are registered and add CRUD  */}
+                                    <li className="sidebar-item">
+                                        <Link
+                                            to="#"
+                                            className="sidebar-link"
+                                        >
+                                            <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
+                                            List of Instructors
+                                        </Link>
+                                    </li>
+
+                                    {/* shows all accounts login accounts and to be able to edit them or show */}
+                                    {/* <li className="sidebar-item">
+                                        <Link to="#" className="sidebar-link">
+                                            <i className="fa-regular fa-address-card pe-2 ps-2"></i>
+                                            Manage Login Credentials
+                                        </Link>
+                                    </li> */}
+                                </ul>
+                            </li>
+
+
+                            {/* students */}
                             <li className="sidebar-header">Manage Students</li>
                             <li className="sidebar-item">
                                 <a
@@ -83,7 +160,7 @@ const Sidebar = () => {
                                     aria-expanded="false"
                                 >
                                     <i className="fa-solid fa-user-tie pe-2"></i>
-                                    Manage
+                                    Students
                                 </a>
                                 <ul
                                     id="auth"
@@ -114,11 +191,12 @@ const Sidebar = () => {
                                 </Link>
                             </li>
 
-                            <li className="sidebar-header">Manage Administrators</li>
-                            <li className="sidebar-item"> 
-
+                            <li className="sidebar-item">
+                                <Link to="/loginupdate" className="sidebar-link">
+                                    <i className="fa-solid fa-user-lock pe-2"></i>
+                                    Manage Account Logins
+                                </Link>
                             </li>
-
 
                         </>
                     )}

@@ -75,7 +75,7 @@ export default function Notification() {
         setShow(false);
     };
 
-    const titleRef= useRef();
+    const titleRef = useRef();
     const descriptionRef = useRef();
 
     const Submit = (ev) => {
@@ -128,9 +128,9 @@ export default function Notification() {
     return (
         <main className="content px-4 py-2 mb-">
             <div className="text-end mb-2">
-                <Button 
-                variant="primary"
-                onClick={handleShow}
+                <Button
+                    variant="primary"
+                    onClick={handleShow}
                 >
                     Add
                 </Button>

@@ -10,9 +10,9 @@ export default function UpdateUser() {
         setShowPassword((prevState) => !prevState);
     };
 
-    const { id } = useParams();
+    const { login_id } = useParams();
     const [user, setUsers] = useState({
-        id: null,
+        login_id: null,
         name: '',
         email: '',
         password: ''
@@ -21,10 +21,10 @@ export default function UpdateUser() {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
 
-    if (id) {
+    if (login_id) {
         useEffect(() => {
             setLoading(true);
-            axiosClient.get(`/users/${id}`)
+            axiosClient.get(`/users/${login_id}`)
                 .then(({ data }) => {
                     setLoading(false);
                     setUsers(data);
@@ -66,7 +66,7 @@ export default function UpdateUser() {
         <div>
 
             { // if the id has a value proceed to update otherwise add new user
-                user.id ? <h4>Update Account: {user.name} | {user.email}</h4> : <h1>Add Account</h1>}
+                user.login_id ? <h4>Update Account: {user.name} | {user.email}</h4> : <h1>Add Account</h1>}
 
             <div className="card animated fadeInDown">
                 <div className="card-body">
@@ -92,16 +92,6 @@ export default function UpdateUser() {
 
                     {!loading && (
                         <form onSubmit={onSubmit}>
-                            <div className="mb-3">
-                                <label className="form-label">Name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={user.name}
-                                    onChange={ev => setUsers({ ...user, name: ev.target.value })}
-                                    placeholder="Name"
-                                />
-                            </div>
                             <div className="mb-3">
                                 <label className="form-label">Email</label>
                                 <input

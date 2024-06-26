@@ -22,7 +22,7 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'nullable|integer',
+            'student_id' => 'nullable|string|max:255',
             'code' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
             'lec_unit' => 'nullable|integer',

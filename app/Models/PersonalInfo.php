@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StudentInfo extends Model
+class PersonalInfo extends Model
 {
-    protected $table = 'students_info';
+    protected $table = 'personal_information';
     
     protected $fillable = [
-        'student_id',
+        'info_id',
         'last_name',
         'first_name',
         'middle_name',

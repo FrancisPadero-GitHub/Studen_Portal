@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradesController;
@@ -42,12 +43,12 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 // Student Informations API
-Route::get('/students', [InformationController::class, 'index']);  // this is for showing the data without specifying the id
-Route::get('/students/{studentInfo}', [InformationController::class, 'show']);
-Route::get('/students/by-student-id/{student_id}', [InformationController::class, 'getStudentByStudentId']);
-Route::apiResource('/students', InformationController::class);
+Route::get('/personalInfo', [InformationController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/personalInfo/{info_id}', [InformationController::class, 'show']);
+Route::put('/personalInfo/update/{info_id}', [InformationController::class, 'update']);
+Route::get('/personalInfo/fetch/{info_id}', [InformationController::class, 'fetchPersonalInfo']);
+Route::apiResource('/personalInfo', InformationController::class);
 
-Route::put('/students/update_by_student_id/{studentInfoId}', [InformationController::class, 'updateByStudentID']);
 
 // Student Enrollment API
 Route::get('/enrollment', [EnrollmentController::class, 'index']);  // this is for showing the data without specifying the id
@@ -73,3 +74,10 @@ Route::get('/grade/by-student-id/{student_id}', [GradesController::class, 'fetch
 // Notification information API
 Route::get('/notification', [NotificationController::class, 'index']);  // this is for showing the data without specifying the id
 Route::apiResource('/notification', NotificationController::class);
+
+// Admin Table
+Route::get('/admin', [AdminController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/admin/{admin_id}', [AdminController::class, 'show']);
+Route::put('/admin/update/{admin_id}', [AdminController::class, 'update']);
+Route::get('/admin/fetch/{admin_id}', [AdminController::class, 'fetchAdminID']);
+Route::apiResource('/admin', AdminController::class);
