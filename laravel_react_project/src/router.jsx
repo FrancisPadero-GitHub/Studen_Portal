@@ -20,6 +20,7 @@ import Notification from './components/Notification.jsx';
 import AdminList from './components/AdminList.jsx';
 import ProfileForm from './components/ProfileForm.jsx';
 import Register from './components/Register.jsx';
+import InstructorList from './components/InstructorList.jsx';
 
 
 
@@ -119,6 +120,11 @@ const router = createBrowserRouter([
             },
 
             {
+                path: '/instructorlist',
+                element: <InstructorList />,
+            },
+
+            {
                 path: '/login/register',
                 element: <Register />,
             },
@@ -127,6 +133,7 @@ const router = createBrowserRouter([
                 path: '/register/profile/new',
                 element: <ProfileForm />,
             },
+
 
         ],
     },

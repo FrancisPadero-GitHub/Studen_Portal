@@ -130,7 +130,7 @@ const Sidebar = () => {
                                     {/* shows a list of instructors that are registered and add CRUD  */}
                                     <li className="sidebar-item">
                                         <Link
-                                            to="#"
+                                            to="/instructorlist"
                                             className="sidebar-link"
                                         >
                                             <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
@@ -191,12 +191,12 @@ const Sidebar = () => {
                                 </Link>
                             </li>
 
-                            <li className="sidebar-item">
+                            {/* <li className="sidebar-item">
                                 <Link to="/loginupdate" className="sidebar-link">
                                     <i className="fa-solid fa-user-lock pe-2"></i>
                                     Manage Account Logins
                                 </Link>
-                            </li>
+                            </li> */}
 
                         </>
                     )}

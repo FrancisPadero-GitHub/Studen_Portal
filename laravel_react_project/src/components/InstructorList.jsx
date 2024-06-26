@@ -4,8 +4,9 @@ import axios from 'axios'; // Import axios if you're using it directly
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Subjects from "./Subjects";
 
-export default function AdminList() {
+export default function InstructorList() {
 
     // Define your refs here
     const infoIdRef = useRef();
@@ -38,9 +39,14 @@ export default function AdminList() {
     const passwordRef = useRef();
     const departmentRef = useRef();
 
-    // State for modal visibility and selected admin
+    const campusRef = useRef();
+    const programRef = useRef();
+    const sectionsRef = useRef();
+    const subjectsRef = useRef();
+
+    // State for modal visibility and selected instructor
     const [showModal, setShowModal] = useState(false);
-    const [admin2, setadmin2] = useState({});
+    const [instructor2, setInstructor2] = useState({}); // used to fetched personal information
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     // Form Submit Merged All http requests
@@ -94,21 +100,25 @@ export default function AdminList() {
             login_id: infoIdRef.current.value,
             email: emailRef1.current.value,
             password: passwordRef.current.value,
-            account: 'admin',
+            account: 'instructor',
         };
 
-        const adminPayload = {
-            admin_id: infoIdRef.current.value,
+        const instructorPayload = {
+            instructor_id: infoIdRef.current.value,
             login_id: infoIdRef.current.value,
-            department: departmentRef.current.value,
+            campus: campusRef.current.value,
+            program: programRef.current.value,
+            sections: sectionsRef.current.value,
+            subjects: subjectsRef.current.value,
+
         };
 
         // Send requests concurrently
         try {
             await axios.all([
                 axiosClient.post("/personalInfo", personalInfoPayload),
-                axiosClient.post("/register", loginPayload),
-                axiosClient.post("/admin", adminPayload)
+                axiosClient.post("/register", loginPayload), // Login Table
+                axiosClient.post("/instructor", instructorPayload)
             ]);
 
             // If all requests are successful
@@ -125,21 +135,21 @@ export default function AdminList() {
             setLoading(false);
         }
     };
-    
 
-    // Function to handle row click to view admin details
-    const [selectedAdmin, setSelectedAdmin] = useState(null);
 
-    const handleDelete = (admin) => {
+    // Function to handle row click to view instructor details
+    const [selectedInstructor, ssetSelectedInstruc] = useState(null);
+
+    const handleDelete = (instructor) => {
         const isConfirmed = window.confirm(`Are you sure you want to delete this administrator?`);
 
         if (isConfirmed) {
             console.log("User confirmed the deletion.");
             // Set the selected administrator to be deleted
-            setSelectedAdmin(admin);
+            ssetSelectedInstruc(instructor);
 
-            // Proceed with the deletion by calling deleteAdmin with admin.admin_id
-            deleteAdmin(admin.admin_id);
+            // Proceed with the deletion by calling deleteAdmin with instructor.admin_id
+            deleteAdmin(instructor.instructor_id);
         } else {
             console.log("Deletion cancelled by the user.");
         }
@@ -151,23 +161,23 @@ export default function AdminList() {
         setLoading(true);
 
         // Create delete requests for all three endpoints
-        const deleteAdminRequest = axiosClient.delete(`/admin/${id}`);
+        const deleteRequest = axiosClient.delete(`/instructor/${id}`);
         const deletePersonalInfoRequest = axiosClient.delete(`/personalInfo/${id}`);
         const deleteLoginInfo = axiosClient.delete(`/users/${id}`);
 
         // Use axios.all to handle all requests concurrently
-        axios.all([deleteAdminRequest, deletePersonalInfoRequest, deleteLoginInfo])
-            .then(axios.spread((adminResponse, personalInfoResponse, userResponse) => {
+        axios.all([deleteRequest, deletePersonalInfoRequest, deleteLoginInfo])
+            .then(axios.spread((instructorResponse, personalInfoResponse, userResponse) => {
                 // Log successful deletions
-                console.log('Administrator deleted successfully from admin table:', adminResponse.data);
-                console.log('Administrator personal info deleted successfully:', personalInfoResponse.data);
-                console.log('Administrator login info deleted successfully:', userResponse.data);
+                console.log('Instructors deleted successfully from instructor table:', instructorResponse.data);
+                console.log('Instructors personal info deleted successfully:', personalInfoResponse.data);
+                console.log('Instructors login info deleted successfully:', userResponse.data);
 
                 // Update the state to remove the deleted administrator
-                setadmininfo(adminInfo => adminInfo.filter(admin => admin.admin_id !== id));
+                setinstrucInfo(instructorInfo => instructorInfo.filter(instructor => instructor.instructor_id !== id));
 
                 // Clear the selected administrator after successful deletion
-                setSelectedAdmin(null);
+                ssetSelectedInstruc(null);
 
                 // Navigate to the home page and reload the window after deletion
                 window.location.reload();
@@ -188,7 +198,7 @@ export default function AdminList() {
 
     // Function to handle "Add / Register" button click to just show the modal
     const handleAddRegisterClick = () => {
-        setSelectedAdmin(null);  // Ensure no admin is selected
+        ssetSelectedInstruc(null);  // Ensure no instructor is selected
         setShowModal(true);
     };
 
@@ -200,32 +210,32 @@ export default function AdminList() {
     //
 
     // Fetch data for the table
-    const [admininfo, setadmininfo] = useState([]);
+    const [instrucInfo, setinstrucInfo] = useState([]); // use to fetch instructor table data
     const [loading, setLoading] = useState(false);
     useEffect(() => {
-        fetchAdmin();
+        fetchInstructor();
     }, []);
 
-    const fetchAdmin = () => {
+    const fetchInstructor = () => {
         setLoading(true);
-        axiosClient.get('/admin')
+        axiosClient.get('/instructor')
             .then(response => {
                 const data = response.data.data;
-                console.log(data[0].admin_id)
-                fetchPersonalInfoAdmin(data[0].admin_id)
-                setadmininfo(data);
+                // console.log(data[0].instructor_id)
+                fetchInstructorData(data[0].instructor_id)
+                setinstrucInfo(data);
                 setLoading(false);
             })
             .catch(error => {
-                console.error('Error fetching admin:', error);
+                console.error('Error fetching instructor:', error);
                 setLoading(false);
             });
     };
 
-    const fetchPersonalInfoAdmin = (id) => {
+    const fetchInstructorData = (id) => {
         axiosClient.get(`/personalInfo/fetch/${id}`)
             .then((response) => {
-                setadmin2(response.data.data);
+                setInstructor2(response.data.data);
             })
             .catch((error) => {
                 console.error("Error fetching personal information name and email:", error);
@@ -237,7 +247,7 @@ export default function AdminList() {
     return (
         <main className="content px-4 py-2">
             <div className="d-flex justify-content-center align-items-center flex-column mb-3">
-                <h4 className="text-center">Administrators</h4>
+                <h4 className="text-center">Instructors</h4>
             </div>
             <div className="text-end mb-1 me-0">
                 <Button
@@ -253,31 +263,38 @@ export default function AdminList() {
                     <table className="table table-hover">
                         <thead>
                             <tr>
-                                <th>Admin ID</th>
+                                <th>Instructor ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Department</th>
+                                <th>Campus</th>
+                                <th>Program</th>
+                                <th>Sections Handling</th>
+                                <th>Subjects Handling</th>
                                 <th className="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan="6" className="text-center">Loading...</td>
+                                    <td colSpan="8" className="text-center">Loading...</td>
                                 </tr>
-                            ) : admininfo.length > 0 ? (
-                                admininfo.map((admin, index) => (
+                            ) : instrucInfo.length > 0 ? (
+                                instrucInfo.map((instructor, index) => (
                                     <tr key={index}>
-                                        <td>{admin.admin_id}</td>
-                                        <td>{admin.admin_id === admin2.info_id ? admin2.first_name + " " + admin2.middle_initial + ". " + admin2.last_name : "ID mismatched"} </td>
-                                        <td>{admin.admin_id === admin2.info_id ? admin2.email : "ID mismatched"}</td>
-                                        <td>{admin.department}</td>
+                                        
+                                        <td>{instructor.instructor_id}</td>
+                                        <td>{instructor.instructor_id === instructor2.info_id ? instructor2.first_name + " " + instructor2.middle_initial + ". " + instructor2.last_name : "ID mismatched"} </td>
+                                        <td>{instructor.instructor_id === instructor2.info_id ? instructor2.email : "ID mismatched"}</td>
+                                        <td>{instructor.campus}</td>
+                                        <td>{instructor.program}</td>
+                                        <td>{instructor.sections}</td>
+                                        <td>{instructor.subjects}</td>
 
                                         <td className='text-end'>
                                             <Button
                                                 variant="danger"
                                                 style={{ fontSize: '13px', padding: '1px 10px' }}
-                                                onClick={() => handleDelete(admin)}
+                                                onClick={() => handleDelete(instructor)}
                                             >
                                                 Delete
                                             </Button>
@@ -286,7 +303,7 @@ export default function AdminList() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="6" className="text-center">No admin data available.</td>
+                                    <td colSpan="8" className="text-center">No instructor data available.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -294,7 +311,7 @@ export default function AdminList() {
                 </div>
             </div>
 
-            {/* Modal for displaying admin details or Add/Register form */}
+            {/* Modal for displaying instructor details or Add/Register form */}
             <Modal
                 show={showModal}
                 onHide={handleCloseModal}
@@ -304,7 +321,7 @@ export default function AdminList() {
                 dialogClassName="modal-dialog-scrollable"
             >
                 <Modal.Header closeButton>
-                    {/* <Modal.Title>{selectedAdmin ? "Admin Details" : "Add / Register Admin"}</Modal.Title> */}
+                    {/* <Modal.Title>{selectedInstructor ? "Admin Details" : "Add / Register Admin"}</Modal.Title> */}
                 </Modal.Header>
                 <Modal.Body style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
                     <form onSubmit={handleSubmit}>
@@ -478,6 +495,32 @@ export default function AdminList() {
                                     <div className="col-sm-6">
                                         <label htmlFor="emergency_mobile_number" className="form-label">Emergency Mobile Number</label>
                                         <input ref={emergencyMobileNumberRef} type="text" className="form-control form-control-sm" id="emergency_mobile_number" name="emergency_mobile_number" required />
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="campus" className="form-label">Campus</label>
+                                        <input ref={campusRef} type="text" className="form-control form-control-sm" id="campus" name="campus" required />
+                                    </div>
+                                </div>
+
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="program" className="form-label">Program</label>
+                                        <input ref={programRef} type="text" className="form-control form-control-sm" id="program" name="program" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="sections" className="form-label">Section</label>
+                                        <input ref={sectionsRef} type="text" className="form-control form-control-sm" id="sections" name="sections" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="subjects" className="form-label">Subjects</label>
+                                        <input ref={subjectsRef} type="text" className="form-control form-control-sm" id="subjects" name="subjects" required />
                                     </div>
                                 </div>
 

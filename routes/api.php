@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradesController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
@@ -81,3 +82,10 @@ Route::get('/admin/{admin_id}', [AdminController::class, 'show']);
 Route::put('/admin/update/{admin_id}', [AdminController::class, 'update']);
 Route::get('/admin/fetch/{admin_id}', [AdminController::class, 'fetchAdminID']);
 Route::apiResource('/admin', AdminController::class);
+
+// Instructor Table
+Route::get('/instructor', [InstructorController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/instructor/{instructor_id}', [InstructorController::class, 'show']);
+Route::put('/instructor/update/{instructor_id}', [InstructorController::class, 'update']);
+Route::get('/instructor/fetch/{instructor_id}', [InstructorController::class, 'fetchInstructorID']);
+Route::apiResource('/instructor', InstructorController::class);
