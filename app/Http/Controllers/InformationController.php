@@ -87,8 +87,23 @@ class InformationController extends Controller
             return response()->json(['error' => 'Failed to update personal information'], 500);
         }
     }
- 
 
+    public function destroy($info_id)
+    {
+        
+        $personalInfo = PersonalInfo::where('info_id', $info_id)->first();
+
+        if (!$personalInfo) {
+            // If personalInfo with given admin_id doesn't exist, return a 404 error
+            return response()->json(['error' => 'Personal Information not found'], 404);
+        }
+
+        // Delete the personalInfo
+        $personalInfo->delete();
+
+        // Return a success message
+        return response()->json(['message' => 'Personal information deleted successfully']);
+    }
 
     /**
      * Display the specified resource.
@@ -111,10 +126,7 @@ class InformationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+
 
 
     /**

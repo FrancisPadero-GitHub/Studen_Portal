@@ -54,10 +54,20 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($login_id)
     {
-        $user->delete();
 
-        return response('',204);
+        $loginInfo = User::where('login_id', $login_id)->first();
+
+        if (!$loginInfo) {
+            // If loginInfo with given admin_id doesn't exist, return a 404 error
+            return response()->json(['error' => 'Login Information not found'], 404);
+        }
+
+        // Delete the loginInfo
+        $loginInfo->delete();
+
+        // Return a success message
+        return response()->json(['message' => 'Login information deleted successfully']);
     }
 }

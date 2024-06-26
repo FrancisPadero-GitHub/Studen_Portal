@@ -44,7 +44,7 @@ const Home = () => {
 
 
     // State management for students, enrollments, subjects, and notifications
-    const [students, setStudents] = useState({});
+    
     const [enroll, setEnroll] = useState({});
     const [loading, setLoading] = useState(false);
     const [subjects, setSubjects] = useState([]);
@@ -63,6 +63,7 @@ const Home = () => {
     }, [setUser]);
 
     // Function to fetch student data by ID
+    const [students, setStudents] = useState({});
     const getStudents = (id) => {
         axiosClient.get(`/students/by-student-id/${id}`)
             .then((response) => {

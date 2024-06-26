@@ -5,17 +5,20 @@ import { useNavigate } from 'react-router-dom';
 
 // ANN FINAL UPDATE
 export default function PersonalProfile() {
-    // Fetch the user context
-    const { user, setUser } = useStateContext();
 
     // State for personal' data
     const [personalInfo, setInfo] = useState({});
 
     // State for form inputs
     const [formData, setFormData] = useState({});
+
     // State for loading status
     const [loading, setLoading] = useState(true);
 
+    // Fetch the user context
+    const { user, setUser } = useStateContext();
+
+    
     // Fetch user and personal data on component mount
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use App\Http\Resources\AdminResource;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        return AdminResource::collection(Admin::query()->orderBy('id', 'desc')->get());
     }
 
 
@@ -78,6 +79,23 @@ class AdminController extends Controller
         }
     }
 
+    public function destroy($admin_id)
+    {
+        // Find the admin by admin_id
+        $admin = Admin::where('admin_id', $admin_id)->first();
+
+        if (!$admin) {
+            // If admin with given admin_id doesn't exist, return a 404 error
+            return response()->json(['error' => 'Admin not found'], 404);
+        }
+
+        // Delete the admin
+        $admin->delete();
+
+        // Return a success message
+        return response()->json(['message' => 'Admin information deleted successfully']);
+    }
+
 
 
 
@@ -113,8 +131,5 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Admin $admin)
-    {
-        //
-    }
+
 }

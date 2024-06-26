@@ -1,52 +1,66 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import axiosClient from "../axiosClient";
-import { useStateContext } from "../contexts/contextprovider";
-import { Link } from "react-router-dom";
+import axios from 'axios'; // Import axios if you're using it directly
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 export default function AdminList() {
 
-    const lastNameRef = useRef(null);
-    const firstNameRef = useRef(null);
-    const middleNameRef = useRef(null);
-    const middleInitialRef = useRef(null);
-    const extRef = useRef(null);
-    const genderRef = useRef(null);
-    const ageRef = useRef(null);
-    const dateOfBirthRef = useRef(null);
-    const placeOfBirthRef = useRef(null);
-    const civilStatusRef = useRef(null);
-    const nationalityRef = useRef(null);
-    const religionRef = useRef(null);
-    const contactNumberRef = useRef(null);
-    const heightRef = useRef(null);
-    const weightRef = useRef(null);
-    const bloodTypeRef = useRef(null);
-    const ethnicityRef = useRef(null);
-    const addressRef = useRef(null);
-    const provinceRef = useRef(null);
-    const municipalityRef = useRef(null);
-    const barangayRef = useRef(null);
-    const zipCodeRef = useRef(null);
-    const emergencyContactPersonRef = useRef(null);
-    const emergencyAddressRef = useRef(null);
-    const emergencyMobileNumberRef = useRef(null);
-
-    const emailRef1 = useRef(null);
-    const infoIdRef = useRef(null);
-    const passwordRef = useRef(null);
-
-    const departmentRef = useRef(null);
+    // Define your refs here
+    const infoIdRef = useRef();
+    const lastNameRef = useRef();
+    const firstNameRef = useRef();
+    const middleNameRef = useRef();
+    const middleInitialRef = useRef();
+    const extRef = useRef();
+    const genderRef = useRef();
+    const ageRef = useRef();
+    const dateOfBirthRef = useRef();
+    const placeOfBirthRef = useRef();
+    const civilStatusRef = useRef();
+    const nationalityRef = useRef();
+    const religionRef = useRef();
+    const emailRef1 = useRef();
+    const contactNumberRef = useRef();
+    const heightRef = useRef();
+    const weightRef = useRef();
+    const bloodTypeRef = useRef();
+    const ethnicityRef = useRef();
+    const addressRef = useRef();
+    const provinceRef = useRef();
+    const municipalityRef = useRef();
+    const barangayRef = useRef();
+    const zipCodeRef = useRef();
+    const emergencyContactPersonRef = useRef();
+    const emergencyAddressRef = useRef();
+    const emergencyMobileNumberRef = useRef();
+    const passwordRef = useRef();
+    const departmentRef = useRef();
 
     // State for modal visibility and selected admin
     const [showModal, setShowModal] = useState(false);
-    const [selectedAdmin, setSelectedAdmin] = useState(null);
+    const [admin2, setadmin2] = useState({});
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
-    // Personal Information Table
-    const profile_info = () => {
-        const payload = {
+    // Form Submit Merged All http requests
+    const handleSubmit = async (ev) => {
+        ev.preventDefault();
+
+        if (!isConfirmed) {
+            const userConfirmed = window.confirm("Are you sure you want to submit the form?");
+            if (!userConfirmed) {
+                console.log("Form submission canceled by user.");
+                return; // Exit the function if user cancels
+            }
+            setIsConfirmed(true);
+        }
+
+        // Set loading state to true
+        setLoading(true);
+
+        // Construct payloads for the different requests
+        const personalInfoPayload = {
             info_id: infoIdRef.current.value,
             last_name: lastNameRef.current.value,
             first_name: firstNameRef.current.value,
@@ -76,94 +90,101 @@ export default function AdminList() {
             emergency_mobile_number: emergencyMobileNumberRef.current.value,
         };
 
-        // Send POST request to your server using Axios
-        try {
-            axiosClient.post("/personalInfo", payload)
-                .then(() => {
-                    window.alert("Form submitted. Please wait for updates from the administrators or visit them at school.");
-                    navigate('/login');
-                    console.log("Form submission successful:");
-                })
-                .catch(err => {
-                    console.error("Form submission failed:", err);
-                });
-        } catch (error) {
-            console.error("An error occurred while submitting the form:", error);
-        }
-
-    };
-
-    // Login/Users Table
-    const login = (ev) => {
-        ev.preventDefault();
-
-        const payload = {
+        const loginPayload = {
             login_id: infoIdRef.current.value,
             email: emailRef1.current.value,
             password: passwordRef.current.value,
             account: 'admin',
-        }
-        axiosClient.post("/register", payload)
-            .then(() => {
-            })
-            .catch(err => {
-                console.error("Form submission failed: Login function", err);
-            });
-    }
+        };
 
-    // Admin Table
-    const admin = (ev) => {
-        ev.preventDefault();
-
-        const payload = {
+        const adminPayload = {
             admin_id: infoIdRef.current.value,
             login_id: infoIdRef.current.value,
             department: departmentRef.current.value,
-        }
-        axiosClient.post("/admin", payload)
-            .then(() => {
-            })
-            .catch(err => {
-                console.error("Admin Table Data upload error:", err);
-            });
-    }
+        };
 
-    const [isConfirmed, setIsConfirmed] = useState(false);
-    const combinedSubmit = (ev) => {
-        if (isConfirmed) {
+        // Send requests concurrently
+        try {
+            await axios.all([
+                axiosClient.post("/personalInfo", personalInfoPayload),
+                axiosClient.post("/register", loginPayload),
+                axiosClient.post("/admin", adminPayload)
+            ]);
 
-        } else {
-            const userConfirmed = window.confirm("Confirm?");
-            if (userConfirmed) {
-                setIsConfirmed(true); // Update the state to indicate user confirmation
-                // Prevent default form submission behavior
-                ev.preventDefault();
+            // If all requests are successful
+            window.alert("Form submitted successfully. Please wait for updates or visit the administrators at school.");
+            console.log("Form submission successful:");
 
-                // Call the first function
-                profile_info(ev);
-                login(ev);
-                admin(ev);
-
-            } else {
-                console.log("Form submission canceled by user.");
-                ev.preventDefault();
-            }
+            // Optional: Navigate or close modal if applicable
+            window.location.reload();
+            navigate("#"); // if using react-router-dom for navigation
+        } catch (error) {
+            console.error("Error submitting forms:", error);
+        } finally {
+            // Reset loading state
+            setLoading(false);
         }
     };
-
-
-
-    // Sample data for the table
-    const admins = [
-        { id: '2020300597', name: 'Francis Padero', email: 'francispadero2001@gmail.com', department: 'CITC BSIT' },
-        // You can add more rows as needed
-    ];
+    
 
     // Function to handle row click to view admin details
-    const handleRowClick = (admin) => {
-        setSelectedAdmin(admin);
-        setShowModal(true);
+    const [selectedAdmin, setSelectedAdmin] = useState(null);
+
+    const handleDelete = (admin) => {
+        const isConfirmed = window.confirm(`Are you sure you want to delete this administrator?`);
+
+        if (isConfirmed) {
+            console.log("User confirmed the deletion.");
+            // Set the selected administrator to be deleted
+            setSelectedAdmin(admin);
+
+            // Proceed with the deletion by calling deleteAdmin with admin.admin_id
+            deleteAdmin(admin.admin_id);
+        } else {
+            console.log("Deletion cancelled by the user.");
+        }
     };
+
+    //  Delete Function Merged
+    const navigate = useNavigate();
+    const deleteAdmin = (id) => {
+        setLoading(true);
+
+        // Create delete requests for all three endpoints
+        const deleteAdminRequest = axiosClient.delete(`/admin/${id}`);
+        const deletePersonalInfoRequest = axiosClient.delete(`/personalInfo/${id}`);
+        const deleteLoginInfo = axiosClient.delete(`/users/${id}`);
+
+        // Use axios.all to handle all requests concurrently
+        axios.all([deleteAdminRequest, deletePersonalInfoRequest, deleteLoginInfo])
+            .then(axios.spread((adminResponse, personalInfoResponse, userResponse) => {
+                // Log successful deletions
+                console.log('Administrator deleted successfully from admin table:', adminResponse.data);
+                console.log('Administrator personal info deleted successfully:', personalInfoResponse.data);
+                console.log('Administrator login info deleted successfully:', userResponse.data);
+
+                // Update the state to remove the deleted administrator
+                setadmininfo(adminInfo => adminInfo.filter(admin => admin.admin_id !== id));
+
+                // Clear the selected administrator after successful deletion
+                setSelectedAdmin(null);
+
+                // Navigate to the home page and reload the window after deletion
+                window.location.reload();
+                navigate("#");
+            }))
+            .catch(error => {
+                // Handle errors from any of the requests
+                console.error('Error deleting administrator or associated info:', error);
+            })
+            .finally(() => {
+                // Reset loading state in both success and error cases
+                setLoading(false);
+            });
+    };
+
+
+
 
     // Function to handle "Add / Register" button click to just show the modal
     const handleAddRegisterClick = () => {
@@ -175,6 +196,43 @@ export default function AdminList() {
     const handleCloseModal = () => {
         setShowModal(false);
     };
+
+    //
+
+    // Fetch data for the table
+    const [admininfo, setadmininfo] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        fetchAdmin();
+    }, []);
+
+    const fetchAdmin = () => {
+        setLoading(true);
+        axiosClient.get('/admin')
+            .then(response => {
+                const data = response.data.data;
+                console.log(data[0].admin_id)
+                fetchPersonalInfoAdmin(data[0].admin_id)
+                setadmininfo(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching admin:', error);
+                setLoading(false);
+            });
+    };
+
+    const fetchPersonalInfoAdmin = (id) => {
+        axiosClient.get(`/personalInfo/fetch/${id}`)
+            .then((response) => {
+                setadmin2(response.data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching personal information name and email:", error);
+            });
+    };
+
+
 
     return (
         <main className="content px-4 py-2">
@@ -199,17 +257,38 @@ export default function AdminList() {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Department</th>
+                                <th className="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {admins.map((admin) => (
-                                <tr key={admin.id} onClick={() => handleRowClick(admin)} style={{ cursor: 'pointer' }}>
-                                    <td>{admin.id}</td>
-                                    <td>{admin.name}</td>
-                                    <td>{admin.email}</td>
-                                    <td>{admin.department}</td>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="6" className="text-center">Loading...</td>
                                 </tr>
-                            ))}
+                            ) : admininfo.length > 0 ? (
+                                admininfo.map((admin, index) => (
+                                    <tr key={index}>
+                                        <td>{admin.admin_id}</td>
+                                        <td>{admin.admin_id === admin2.info_id ? admin2.first_name + " " + admin2.middle_initial + ". " + admin2.last_name : "ID mismatched"} </td>
+                                        <td>{admin.admin_id === admin2.info_id ? admin2.email : "ID mismatched"}</td>
+                                        <td>{admin.department}</td>
+
+                                        <td className='text-end'>
+                                            <Button
+                                                variant="danger"
+                                                style={{ fontSize: '13px', padding: '1px 10px' }}
+                                                onClick={() => handleDelete(admin)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" className="text-center">No student data available.</td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -228,7 +307,7 @@ export default function AdminList() {
                     {/* <Modal.Title>{selectedAdmin ? "Admin Details" : "Add / Register Admin"}</Modal.Title> */}
                 </Modal.Header>
                 <Modal.Body style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
-                    <form onSubmit={combinedSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <div className="card">
                             <div className="card-body" id="regisForm">
                                 <p className="text-center mb-2" id="header">Registration Form</p>
@@ -402,7 +481,7 @@ export default function AdminList() {
                                     </div>
                                 </div>
 
-                                <hr/>
+                                <hr />
                                 <p className="text-center mb-2" id="header">Login Information</p>
 
                                 <div className="row mb-2">

@@ -11,6 +11,7 @@ function StudentList() {
         email: '',
         password: '',
     });
+    
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [students, setStudents] = useState([]);
