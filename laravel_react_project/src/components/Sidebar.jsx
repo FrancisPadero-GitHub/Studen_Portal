@@ -17,9 +17,12 @@ const Sidebar = () => {
     return (
         <aside id="sidebar" className="js-sidebar">
             <div className="h-100">
-                <div className="sidebar-logo">
+                <div className="sidebar-logo text-center">
                     <Link to="/">
-                        Student Portal {user.account === 'admin' && ' (Admin)'}
+                        Byte Me Portal
+                         <div className="text-center" style={{fontSize: '12px'}}>
+                            {user.account === 'developer' && ' (SA mode)'}
+                         </div>
                     </Link>
                 </div>
                 <ul className="sidebar-nav">
@@ -68,9 +71,9 @@ const Sidebar = () => {
                     </li>
 
                     {/* Conditionally render admin options */}
-                    {user.account === 'admin' && (
+                    {user.account === 'developer' && (
                         <>
-                            <li className="sidebar-header">Admin Options</li>
+                            <li className="sidebar-header">Manage Students</li>
                             <li className="sidebar-item">
                                 <a
                                     href="#"
@@ -110,9 +113,15 @@ const Sidebar = () => {
                                     Notify Students
                                 </Link>
                             </li>
+
+                            <li className="sidebar-header">Manage Administrators</li>
+                            <li className="sidebar-item"> 
+
+                            </li>
+
+
                         </>
                     )}
-
                 </ul>
             </div>
         </aside>

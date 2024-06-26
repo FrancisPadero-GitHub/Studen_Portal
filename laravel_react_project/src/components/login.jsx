@@ -13,10 +13,10 @@ export default function Login() {
     // Default Login Credentials for Super User admin. PS: This will automatically runs in the background once the program is being initiated
     // Token is not available for this by default to avoid routing to home upon running
     const superUserCredentials = {
-        student_id: 1,
-        email: "superuser@gmail.com",
+        login_id: 102001,
+        email: "developer@gmail.com",
         password: "test1234",
-        account: "admin"
+        account: "developer"
     };
     
     // this one checks if the account is already exists or not then proceed to the conditional inside it

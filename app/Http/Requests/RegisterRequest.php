@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id' => 'nullable|unique:users,student_id|integer',
+            'login_id' => 'nullable|unique:users,login_id|integer',
             'email' => 'required|email|unique:users,email', // validation for the authcontroller
             'password' => [
                 'required',
