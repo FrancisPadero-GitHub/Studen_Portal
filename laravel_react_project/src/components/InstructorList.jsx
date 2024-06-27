@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Subjects from "./Subjects";
+import { ModalBody } from "react-bootstrap";
 
 export default function InstructorList() {
 
@@ -45,7 +46,7 @@ export default function InstructorList() {
     const subjectsRef = useRef();
 
     // State for modal visibility and selected instructor
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false); // modal sa instructor
     const [instructor2, setInstructor2] = useState({}); // used to fetched personal information
     const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -193,9 +194,6 @@ export default function InstructorList() {
             });
     };
 
-
-
-
     // Function to handle "Add / Register" button click to just show the modal
     const handleAddRegisterClick = () => {
         ssetSelectedInstruc(null);  // Ensure no instructor is selected
@@ -207,7 +205,152 @@ export default function InstructorList() {
         setShowModal(false);
     };
 
-    //
+    // Modal for Schedule
+    const [showModal2, setShowModal2] = useState(false);
+
+const handleSetSched = (instructor) => {
+    ssetSelectedInstruc(instructor);
+    scheduleData(instructor.instructor_id); // Call scheduleData with instructor ID
+}
+
+const scheduleData = (id) => {
+    const schedules = [
+        {
+            instructor_id: id,
+            day: "Monday",
+            time: "8:00-9:30",
+            course: "Math 101",
+            section: "01",
+            room: "201",
+            notes: "Intro to Calculus"
+        },
+        {
+            instructor_id: id,
+            day: "Monday",
+            time: "11:30-1:00",
+            course: "Math 101",
+            section: "03",
+            room: "201",
+            notes: "Additional coverage of complex topics"
+        },
+        {
+            instructor_id: id,
+            day: "Monday",
+            time: "3:00-4:30",
+            course: "Office Hours",
+            section: "-",
+            room: "301",
+            notes: "-"
+        },
+        {
+            instructor_id: id,
+            day: "Tuesday",
+            time: "9:45-11:15",
+            course: "Math 101",
+            section: "02",
+            room: "201",
+            notes: "Second section"
+        },
+        {
+            instructor_id: id,
+            day: "Tuesday",
+            time: "1:15-2:45",
+            course: "Math 301",
+            section: "01",
+            room: "303",
+            notes: "Advanced Calculus"
+        },
+        {
+            instructor_id: id,
+            day: "Wednesday",
+            time: "8:00-9:30",
+            course: "Math 101",
+            section: "01",
+            room: "201",
+            notes: "Repeat session from Monday"
+        },
+        {
+            instructor_id: id,
+            day: "Wednesday",
+            time: "11:30-1:00",
+            course: "Math 101",
+            section: "03",
+            room: "201",
+            notes: "Repeat session from Monday"
+        },
+        {
+            instructor_id: id,
+            day: "Wednesday",
+            time: "3:00-4:30",
+            course: "Office Hours",
+            section: "-",
+            room: "301",
+            notes: "-"
+        },
+        {
+            instructor_id: id,
+            day: "Thursday",
+            time: "9:45-11:15",
+            course: "Math 101",
+            section: "02",
+            room: "201",
+            notes: "Repeat session from Tuesday"
+        },
+        {
+            instructor_id: id,
+            day: "Thursday",
+            time: "1:15-2:45",
+            course: "Math 301",
+            section: "01",
+            room: "303",
+            notes: "Repeat session from Tuesday"
+        },
+        {
+            instructor_id: id,
+            day: "Friday",
+            time: "10:00-11:30",
+            course: "Math 101",
+            section: "01",
+            room: "201",
+            notes: "Review session"
+        },
+        {
+            instructor_id: id,
+            day: "Friday",
+            time: "11:30-1:00",
+            course: "Math 101",
+            section: "03",
+            room: "201",
+            notes: "Review session"
+        },
+        {
+            instructor_id: id,
+            day: "Friday",
+            time: "3:00-4:30",
+            course: "Faculty Meeting",
+            section: "-",
+            room: "401",
+            notes: "Department"
+        }
+    ];
+
+    // Create an array of promises for all schedule posts
+    const postRequests = schedules.map(sched => axiosClient.post("/schedule", sched));
+
+    // Use Promise.all to execute all requests concurrently
+    Promise.all(postRequests)
+        .then(() => {
+            window.alert("All schedules generated successfully");
+            ssetSelectedInstruc(null);
+        })
+        .catch((err) => {
+            console.error("Failed to submit schedules:", err);
+        });
+};
+
+    const handleCloseModal2 = () => {
+        setShowModal2(false);
+    }
 
     // Fetch data for the table
     const [instrucInfo, setinstrucInfo] = useState([]); // use to fetch instructor table data
@@ -281,7 +424,7 @@ export default function InstructorList() {
                             ) : instrucInfo.length > 0 ? (
                                 instrucInfo.map((instructor, index) => (
                                     <tr key={index}>
-                                        
+
                                         <td>{instructor.instructor_id}</td>
                                         <td>{instructor.instructor_id === instructor2.info_id ? instructor2.first_name + " " + instructor2.middle_initial + ". " + instructor2.last_name : "ID mismatched"} </td>
                                         <td>{instructor.instructor_id === instructor2.info_id ? instructor2.email : "ID mismatched"}</td>
@@ -291,6 +434,14 @@ export default function InstructorList() {
                                         <td>{instructor.subjects}</td>
 
                                         <td className='text-end'>
+                                            <Button
+                                                variant="secondary me-2"
+                                                style={{ fontSize: '13px', padding: '1px 10px' }}
+                                                onClick={() => handleSetSched(instructor)}
+                                            >
+                                                Set Schedule
+                                            </Button>
+
                                             <Button
                                                 variant="danger"
                                                 style={{ fontSize: '13px', padding: '1px 10px' }}
@@ -497,7 +648,7 @@ export default function InstructorList() {
                                         <input ref={emergencyMobileNumberRef} type="text" className="form-control form-control-sm" id="emergency_mobile_number" name="emergency_mobile_number" required />
                                     </div>
                                 </div>
-                                <hr/>
+                                <hr />
                                 <div className="row mb-2">
                                     <div className="col-sm-12">
                                         <label htmlFor="campus" className="form-label">Campus</label>
@@ -561,6 +712,76 @@ export default function InstructorList() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
+            <Modal
+                show={showModal2}
+                onHide={handleCloseModal2}
+                backdrop="static"
+                keyboard={false}
+                centered
+                dialogClassName="modal-dialog-scrollable"
+            >
+                <Modal.Header closeButton>
+                    {/* <Modal.Title>{selectedInstructor ? "Admin Details" : "Add / Register Admin"}</Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body>
+                    <form onSubmit={handleSubmit}>
+                        <div className="card">
+                            <div className="card-body" id="regisForm">
+                                <p className="text-center mb-1" id="header">Schedule</p>
+
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="day" className="form-label">Day</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="day" name="day" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="password" name="password" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="password" name="password" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="password" name="password" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="password" name="password" required />
+                                    </div>
+                                </div>
+                                <div className="row mb-2">
+                                    <div className="col-sm-12">
+                                        <label htmlFor="password" className="form-label">Password</label>
+                                        <input ref={passwordRef} type="text" className="form-control form-control-sm" id="password" name="password" required />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                        
+                            
+                                
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal2}>
                         Close
                     </Button>
                 </Modal.Footer>

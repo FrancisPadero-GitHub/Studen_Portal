@@ -7,6 +7,8 @@ use App\Http\Controllers\GradesController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -89,3 +91,13 @@ Route::get('/instructor/{instructor_id}', [InstructorController::class, 'show'])
 Route::put('/instructor/update/{instructor_id}', [InstructorController::class, 'update']);
 Route::get('/instructor/fetch/{instructor_id}', [InstructorController::class, 'fetchInstructorID']);
 Route::apiResource('/instructor', InstructorController::class);
+
+// Schedule Table
+Route::get('/schedule', [ScheduleController::class, 'index']);  // this is for showing the data without specifying the id
+Route::get('/schedule/{id}', [ScheduleController::class, 'show']);
+Route::put('/schedule/update/{id}', [ScheduleController::class, 'update']);
+Route::get('/schedule/fetch/{id}', [ScheduleController::class, 'scheduleID']);
+Route::apiResource('/schedule', ScheduleController::class);
+
+// Student Table
+Route::apiResource('/student', StudentController::class);

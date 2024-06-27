@@ -21,6 +21,7 @@ import AdminList from './components/AdminList.jsx';
 import ProfileForm from './components/ProfileForm.jsx';
 import Register from './components/Register.jsx';
 import InstructorList from './components/InstructorList.jsx';
+import InstructorSchedule from './components/InstructorSchedule.jsx';
 
 
 
@@ -132,6 +133,11 @@ const router = createBrowserRouter([
             {
                 path: '/register/profile/new',
                 element: <ProfileForm />,
+            },
+            
+            {
+                path: '/instructor/schedules',
+                element: <InstructorSchedule />,
             },
 
 

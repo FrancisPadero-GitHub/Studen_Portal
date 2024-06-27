@@ -117,11 +117,28 @@ class EnrollmentController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Enrollment $enrollment)
+    public function destroy($student_id)
     {
-        //
+        // Log the student_id received
+        Log::info("Attempting to delete enrollment for student_id: $student_id");
+
+        // Find the admin by student_id
+        $enrollmentInfo = Enrollment::where('student_id', $student_id)->first();
+
+        if (!$enrollmentInfo) {
+            // Log if enrollment not found
+            Log::warning("Enrollment with student_id $student_id not found");
+            return response()->json(['error' => 'Enrollment not found'], 404);
+        }
+
+        // Delete the enrollment
+        $enrollmentInfo->delete();
+
+        // Log successful deletion
+        Log::info("Enrollment with student_id $student_id deleted successfully");
+
+        // Return a success message
+        return response()->json(['message' => 'Enrollment information deleted successfully']);
     }
+
 }

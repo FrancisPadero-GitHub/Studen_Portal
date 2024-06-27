@@ -44,30 +44,32 @@ const Home = () => {
 
 
     // State management for students, enrollments, subjects, and notifications
-    
+
     const [enroll, setEnroll] = useState({});
     const [loading, setLoading] = useState(false);
-    const [subjects, setSubjects] = useState([]);
     const [notifications, setNotifications] = useState([]);
 
     // Fetch user and associated data on component mount
     useEffect(() => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
-            const studentId = data.student_id;
-            getStudents(studentId);
-            getEnrollmentInfo(studentId);
-            setSub(studentId);
-            fetchNotifications(studentId); // Fetch notifications as well
+            const loginID = data.login_id;
+            getStudents(loginID);
+            getEnrollmentInfo(loginID);
+            setSub(loginID); // Students Schedule
+            setSched(loginID)
+            fetchNotifications(loginID); // Fetch notifications as well
         });
     }, [setUser]);
+
 
     // Function to fetch student data by ID
     const [students, setStudents] = useState({});
     const getStudents = (id) => {
-        axiosClient.get(`/students/by-student-id/${id}`)
+        axiosClient.get(`/personalInfo/fetch/${id}`)
             .then((response) => {
-                setStudents(response.data.data);
+                const profileData = response.data.data;
+                setStudents(profileData);
             })
             .catch((error) => {
                 console.error("Error fetching students:", error);
@@ -85,7 +87,28 @@ const Home = () => {
             });
     };
 
+    const [scheds, setschedule] = useState([]);
+    const setSched = (userID) => {
+        setLoading(true);
+        axiosClient.get(`/schedule`)
+            .then((response) => {
+                const allSchedules = response.data.data;
+                const filteredSubjects = allSchedules.filter(
+                    (scheds) => scheds.instructor_id === userID
+                );
+                setschedule(filteredSubjects);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching schedule:", error);
+                setLoading(false); // Stop loading even if there was an error
+            });
+    };
+
+
+    // Students Schedule
     // Function to fetch subjects based on student ID
+    const [subjects, setSubjects] = useState([]);
     const setSub = (userID) => {
         setLoading(true);
         axiosClient.get(`/subject`)
@@ -117,14 +140,6 @@ const Home = () => {
 
     return (
         <main className="content px-3 py-2">
-            {/* <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item active" aria-current="page">
-                        Home
-                    </li>
-                </ol>
-            </nav> */}
-
             <div className="container-fluid">
                 <div className="mb-3 mt-3">
                     <h4>Student Dashboard</h4>
@@ -232,114 +247,170 @@ const Home = () => {
                         )}
                     </div>
                 </div>
-
-                <div className="card border-0 mt-3" id="subjects">
-                    <div className="card-header">
-                        <h5 className="card-title">Quick Subjects Schedule</h5>
-                        {/* Add something here that reflects what Semester is the schedule for */}
-                        <h6 className="card-subtitle text-muted">
-                            2nd Year 2nd Semester
-                        </h6>
-                    </div>
-                    <div className="card-body">
-                        <div className="table-responsive">
-                            <table className="table table-bordered text-center">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Monday</th>
-                                        <th scope="col">Tuesday</th>
-                                        <th scope="col">Wednesday</th>
-                                        <th scope="col">Thursday</th>
-                                        <th scope="col">Friday</th>
-                                        <th scope="col">Saturday</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {loading ? (
+                {user.account === 'student' && (
+                    <div className="card border-0 mt-3" id="subjects">
+                        <div className="card-header">
+                            <h5 className="card-title">Quick Subjects Schedule (Student)</h5>
+                            {/* Add something here that reflects what Semester is the schedule for */}
+                            <h6 className="card-subtitle text-muted">
+                                2nd Year 2nd Semester
+                            </h6>
+                        </div>
+                        <div className="card-body">
+                            <div className="table-responsive">
+                                <table className="table table-bordered text-center">
+                                    <thead>
                                         <tr>
-                                            <td colSpan="6" className="text-center">Loading...</td>
+                                            <th scope="col">Monday</th>
+                                            <th scope="col">Tuesday</th>
+                                            <th scope="col">Wednesday</th>
+                                            <th scope="col">Thursday</th>
+                                            <th scope="col">Friday</th>
+                                            <th scope="col">Saturday</th>
                                         </tr>
-                                    ) : subjects.length > 0 ? (
-                                        subjects.map((subject, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('M'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('T'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('W'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('Th'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('F'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
-                                                <td>
-                                                    {subject.schedule
-                                                        .filter(time => time.startsWith('S'))
-                                                        .map((time, idx) => (
-                                                            <div key={idx} className="schedule-item">
-                                                                <div>{time}</div>
-                                                                <div>{subject.teacher}</div>
-                                                                <div className="description">{subject.description}</div>
-                                                            </div>
-                                                        ))}
-                                                </td>
+                                    </thead>
+                                    <tbody>
+                                        {loading ? (
+                                            <tr>
+                                                <td colSpan="6" className="text-center">Loading...</td>
                                             </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="6" className="text-center">No student data available.</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                        ) : subjects.length > 0 ? (
+                                            subjects.map((subject, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('M'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('T'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('W'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('Th'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('F'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                    <td>
+                                                        {subject.schedule
+                                                            .filter(time => time.startsWith('S'))
+                                                            .map((time, idx) => (
+                                                                <div key={idx} className="schedule-item">
+                                                                    <div>{time}</div>
+                                                                    <div>{subject.teacher}</div>
+                                                                    <div className="description">{subject.description}</div>
+                                                                </div>
+                                                            ))}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="6" className="text-center">No student data available.</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
+
+                {user.account === 'instructor' && (
+                    <div className="card border-0 mt-3" id="subjects">
+                        <div className="card-header">
+                            <h5 className="card-title">Quick Class Schedule (Instructor)</h5>
+                            {/* Add something here that reflects what Semester is the schedule for */}
+                            <h6 className="card-subtitle text-muted">
+                                2nd Year 2nd Semester
+                            </h6>
+                        </div>
+                        <div className="card animated fadeInDown">
+                            <div className="card-body">
+                                <table className="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Instructor ID</th>
+                                            <th>Day</th>
+                                            <th>Time</th>
+                                            <th>Course</th>
+                                            <th>Section</th>
+                                            <th>Room</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {loading ? (
+                                            <tr>
+                                                <td colSpan="8" className="text-center">Loading...</td>
+                                            </tr>
+                                        ) : scheds.length > 0 ? (
+                                                scheds.map((sched, index) => (
+                                                <tr key={index}>
+                                                    <td>{sched.id}</td>
+                                                    <td>{sched.instructor_id}</td>
+                                                    <td>{sched.day}</td>
+                                                    <td>{sched.time}</td>
+                                                    <td>{sched.course}</td>
+                                                    <td>{sched.section}</td>
+                                                    <td>{sched.room}</td>
+                                                    <td>{sched.notes}</td>
+
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="8" className="text-center">No instructor data available.</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
         </main>

@@ -14,18 +14,24 @@ const Sidebar = () => {
         });
     }, [setUser]);
 
+
+
     return (
         <aside id="sidebar" className="js-sidebar">
             <div className="h-100">
                 <div className="sidebar-logo text-center">
                     <Link to="/">
                         Byte Me Portal
-                         <div className="text-center" style={{fontSize: '12px'}}>
-                            {user.account === 'developer' && ' (Developer mode)'}
-                         </div>
+                        <div className="text-center" style={{ fontSize: '12px' }}>
+                            {user.account === 'admin' && ' (Admin)'}
+                            {user.account === 'instructor' && ' (Instructor)'}
+                            {user.account === 'student' && ' (Student)'}
+
+                        </div>
                     </Link>
                 </div>
                 <ul className="sidebar-nav">
+
                     <li className="sidebar-header">Quick Navigation</li>
                     <li className="sidebar-item">
                         <Link to="/home" className="sidebar-link">
@@ -33,6 +39,8 @@ const Sidebar = () => {
                             Dashboard
                         </Link>
                     </li>
+
+                {user.account === 'student' && (
                     <li className="sidebar-item">
                         <a
                             href="#"
@@ -69,15 +77,13 @@ const Sidebar = () => {
                             </li>
                         </ul>
                     </li>
-                    
+                    )}
 
                     {/* Conditionally render admin options */}
-                    {user.account === 'developer' && (
-                        <>  
-                            {/* administrators ps: this is only available on SA mode*/}
+                    {user.account === 'admin' && (
+                        <>
+                            {/* Administrator Section */}
                             <li className="sidebar-header">Manage Administrators</li>
-                            {/* shows all accounts login accounts and to be able to edit them or show */}
-                                    
                             <li className="sidebar-item">
                                 <a
                                     href="#"
@@ -94,22 +100,21 @@ const Sidebar = () => {
                                     className="sidebar-dropdown list-unstyled collapse"
                                     data-bs-parent="#sidebar"
                                 >
-                                    {/* shows a list of administrators that are registered and add CRUD  */}
+                                    {/* List of Admins */}
                                     <li className="sidebar-item">
-                                        <Link
-                                            to="/adminlist"
-                                            className="sidebar-link"
-                                        >
+                                        <Link to="/adminlist" className="sidebar-link">
                                             <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
                                             List of Admins
                                         </Link>
                                     </li>
-
-                                    
                                 </ul>
                             </li>
+                        </>
+                    )}
 
-                            {/* instructors */}
+                    {user.account === 'admin' && (
+                        <>
+                            {/* Instructor Section */}
                             <li className="sidebar-header">Manage Instructors</li>
                             <li className="sidebar-item">
                                 <a
@@ -127,35 +132,34 @@ const Sidebar = () => {
                                     className="sidebar-dropdown list-unstyled collapse"
                                     data-bs-parent="#sidebar"
                                 >
-                                    {/* shows a list of instructors that are registered and add CRUD  */}
+                                    {/* List of Instructors */}
                                     <li className="sidebar-item">
-                                        <Link
-                                            to="/instructorlist"
-                                            className="sidebar-link"
-                                        >
+                                        <Link to="/instructorlist" className="sidebar-link">
                                             <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
                                             List of Instructors
                                         </Link>
                                     </li>
 
-                                    {/* shows all accounts login accounts and to be able to edit them or show */}
-                                    {/* <li className="sidebar-item">
-                                        <Link to="#" className="sidebar-link">
-                                            <i className="fa-regular fa-address-card pe-2 ps-2"></i>
-                                            Manage Login Credentials
+                                    <li className="sidebar-item">
+                                        <Link to="/instructor/schedules" className="sidebar-link">
+                                            <i className="fa-regular fa-calendar pe-2 ps-2"></i>
+                                            Schedules
                                         </Link>
-                                    </li> */}
+                                    </li>
                                 </ul>
                             </li>
+                        </>
+                    )}
 
-
-                            {/* students */}
+                    {(user.account === 'admin' || user.account === 'instructor') && (
+                        <>
+                            {/* Student Section */}
                             <li className="sidebar-header">Manage Students</li>
                             <li className="sidebar-item">
                                 <a
                                     href="#"
                                     className="sidebar-link collapsed"
-                                    data-bs-target="#auth"
+                                    data-bs-target="#students"
                                     data-bs-toggle="collapse"
                                     aria-expanded="false"
                                 >
@@ -163,42 +167,27 @@ const Sidebar = () => {
                                     Students
                                 </a>
                                 <ul
-                                    id="auth"
+                                    id="students"
                                     className="sidebar-dropdown list-unstyled collapse"
                                     data-bs-parent="#sidebar"
                                 >
                                     <li className="sidebar-item">
-                                        <Link
-                                            to="/studentlist"
-                                            className="sidebar-link"
-                                        >
+                                        <Link to="/studentlist" className="sidebar-link">
                                             <i className="fa-solid fa-circle-user pe-2 ps-2"></i>
-                                            Login Credentials
-                                        </Link>
-                                    </li>
-                                    <li className="sidebar-item">
-                                        <Link to="/enroll/students" className="sidebar-link">
-                                            <i className="fa-regular fa-address-card pe-2 ps-2"></i>
-                                            Enroll Students
+                                            Student List
                                         </Link>
                                     </li>
                                 </ul>
                             </li>
-                            <li className="sidebar-item">
-                                <Link to="/notification" className="sidebar-link">
-                                    <i className="fa-regular fa-bell pe-2"></i>
-                                    Notify Students
-                                </Link>
-                            </li>
-
-                            {/* <li className="sidebar-item">
-                                <Link to="/loginupdate" className="sidebar-link">
-                                    <i className="fa-solid fa-user-lock pe-2"></i>
-                                    Manage Account Logins
-                                </Link>
-                            </li> */}
-
                         </>
+                    )}
+                    {(user.account === 'admin' || user.account === 'instructor') && (
+                    <li className="sidebar-item">
+                        <Link to="/notification" className="sidebar-link">
+                            <i className="fa-regular fa-bell pe-2"></i>
+                            Notify Students
+                        </Link>
+                    </li>
                     )}
                 </ul>
             </div>

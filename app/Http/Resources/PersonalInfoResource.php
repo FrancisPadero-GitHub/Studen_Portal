@@ -24,7 +24,6 @@ class PersonalInfoResource extends JsonResource
             'nationality' => $this->nationality,
             'religion' => $this->religion,
             'email' => $this->email,
-            'password' => $this->password,
             'contact_number' => $this->contact_number,
             'height' => $this->height,
             'weight' => $this->weight,

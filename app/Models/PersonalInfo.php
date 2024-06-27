@@ -23,7 +23,6 @@ class PersonalInfo extends Model
         'nationality',
         'religion',
         'email',
-        'password',
         'contact_number',
         'height',
         'weight',

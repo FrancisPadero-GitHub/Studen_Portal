@@ -11,7 +11,7 @@ const Grades = () => {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const subsInfo = data.student_id;
+            const subsInfo = data.login_id;
             setGrades(subsInfo);
         });
     }, [setUser]);

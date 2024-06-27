@@ -14,7 +14,7 @@ export default function Enrollment() {
         axiosClient.get("/user").then(({ data }) => {
             setUser(data);
             // Fetch the student's data using the user's ID
-            const enrollInfo = data.student_id;
+            const enrollInfo = data.login_id;
             getEnrollInfo(enrollInfo);
         });
     }, [setUser]);

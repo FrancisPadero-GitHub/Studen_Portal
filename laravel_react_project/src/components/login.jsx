@@ -16,7 +16,7 @@ export default function Login() {
         login_id: "102001",
         email: "developer@gmail.com",
         password: "test1234",
-        account: "developer"
+        account: "admin"
     };
     
     // this one checks if the account is already exists or not then proceed to the conditional inside it

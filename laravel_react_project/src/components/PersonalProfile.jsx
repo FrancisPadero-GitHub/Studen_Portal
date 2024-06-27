@@ -27,7 +27,7 @@ export default function PersonalProfile() {
             const personal_id = data.login_id;
             console.log(personal_id)
             getProfile(personal_id);
-            // getEnrollmentInfo(personal_id);
+            getEnrollmentInfo(personal_id);
         });
     }, [setUser]);
 
@@ -119,8 +119,10 @@ export default function PersonalProfile() {
                             <div className="text-center mb-1">
                                 <em>{formData.info_id}</em>
                             </div>
-                            <div className="text-center">
-                                <p className="text-info">STUDENT</p>
+                            <div className="text-center text-info">
+                                    {user.account === 'admin' && ' ADMIN'}
+                                    {user.account === 'instructor' && ' INSTRUCTOR'}
+                                    {user.account === 'student' && ' STUDENT'}
                             </div>
                             <hr />
                             <div className="text-center">
